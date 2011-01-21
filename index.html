@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="RApache-powered web application for univariate plots." />
+    <title>Univariate plot</title>
+    <link rel="stylesheet" type="text/css" href="univar.css" />
+    <script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="univar.js"></script>
+  </head>
+  <body>
+    <div id="navbar">
+      <h1 id="navtitle">Univariate plot</h1>
+      <!-- <div id="info"> -->
+      <!-- 	<span id="info-hover">LOOK AT ME!</span> -->
+      <!-- 	<span class="info-icon">?</span> -->
+      <!-- 	<span class="info-icon">"</span> -->
+      <!-- 	<span class="info-icon">i</span> -->
+      <!-- </div> -->
+    </div>
+    <div id="mainpage">
+      <noscript>
+	<div id="jserr">
+	  <span id="errmsg">I &hearts; Javascript!</span>
+	  <br />
+	  (can't live without it)
+	</div>
+      </noscript>
+      <div id="distplot">
+	<div id="parpanel">
+	  <form action="#" method="post">
+	    <div id = "headpar">
+	      <p name="main" class="partitle">Main options</p>
+	      <p id="distnames" class="ppar">
+		<label for="distname">Distribution:</label>
+		<select id="distname" name="distname">
+		  <option value="" selected="selected">-- choose --</option>
+		</select>
+		<a id="wikiurl" class="manlink" target="_blank">W</a>
+		<a id="rman" class="manlink" target="_blank">R</a>
+	      </p>
+	      <p id="disttypes" class="ppar">
+		<label for="disttypebtns">Type:</label>
+		<div id="disttypebtns">
+		  <span class="disttypebtn" id="random" title = "Generate (pseudo)random variable">X</span>
+		  <span class="disttypebtn" id="pdf" title = "Generate probability mass/density function">f(X)</span>
+		  <span class="disttypebtn" id="cdf" title = "Generate cumulative distribution function">F(X)</span>
+		  <input type="hidden" id="disttype" name="disttype" value="" />
+		</div>
+	      </p>
+	    </div>
+	    <div id="bodypar">
+	      <p class="partitle">Distribution parameters</p>
+	      <div id="distpar">
+		<!-- plot parameters go here -->
+	      </div>
+	    </div>
+	    <div id="footpar">
+	      <p class="partitle">Plot type</p>
+	      <p id="plottypes" class="ppar">
+		<div id="simple" class="ptype">
+		  <img src="artwork/png/point.png" class="plot-icon" alt="point" title="point" />
+		  <img src="artwork/png/line.png" class="plot-icon" alt="line" title="line" />
+		  <img src="artwork/png/overplotted.png" class="plot-icon" alt="overploted" title="overplotted" />
+		  <img src="artwork/png/stroked.png" class="plot-icon" alt="stroked" title="slash-dotted" />
+		  <img src="artwork/png/h.png" class="plot-icon" alt="histogram-like" title="histogram-like lines" />
+		  <img src="artwork/png/zig-zag.png" class="plot-icon" alt="zig-zag" title="rectilinear" />
+		</div>
+	      	<div id="other" class="ptype">
+		  <img src="artwork/png/boxplot.png" class="plot-icon" alt="boxplot" title="boxplot" />
+		  <img src="artwork/png/histogram.png" class="plot-icon" alt="histogram" title="histogram" />
+		  <img src="artwork/png/density.png" class="plot-icon" alt="density" title="kernel density plot" />
+		  <img src="artwork/png/ecdf.png" class="plot-icon" alt="ecdf" title="empirical cumulative distribution function" />
+		</div>
+		<input type="hidden" id="plottype" name="plottype" value="" />
+	      </p>
+	      <p id = "plotnav">
+		<input type="button" id="plotrst" title="Click to reset form!" value="Reset" />
+		<input type="button" id="plotbtn" title="Click to plot graph!" value="Plot" />
+	      </p>
+	    </div>
+	  </form>
+	</div>
+	<div id="plot-panel">
+	  <div id="plot-contents">
+	    <div id="plot-inner">
+	      <p id="plot-text">Your plot<br />goes here...</p>
+	    </div>
+	  </div>
+	</div>
+	<div id="rsource">
+	  <code>print("Hello source code!")</code>
+	</div>
+      </div>
+    </div>
+    <div id="footer">
+      <span id="footer-about">2011 aL3xa</span>
+      <span id="footer-git">source-code at github</span>
+    </div>
+  </body>
+</html>

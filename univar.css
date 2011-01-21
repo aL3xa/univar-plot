@@ -1,0 +1,280 @@
+html, body, #mainpage{
+    font-family:verdana;
+    height:100%;
+}
+
+body > #mainpage{
+    height:auto;
+    min-height:100%;
+    text-align:center;
+}
+
+select, option, #rnd, #plotnav input{
+    cursor:pointer;
+}
+
+body{
+    background: none repeat scroll 0 0 #F7F7F7;
+    margin:0px;
+    padding:0px;
+}
+
+#navbar {
+    background: none repeat scroll 0 0 #353535 !important;
+    border-bottom: 8px solid orange;
+    color: white;
+    height: 45px;
+    margin-bottom: 2em;
+    padding: 10px;
+    cursor:default;
+}
+
+#navtitle {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+    width: 300px;
+}
+
+#info{
+    margin-top: -25px;
+    position: relative;
+    text-align: right;
+}
+
+.info-icon{
+    cursor:pointer;
+}
+
+#info-hover{
+    display:none;
+}
+
+#jserr{
+    /* height:500px; */
+    /* width:500px; */
+    /* position:absolute; */
+    /* left:50%; */
+    /* top:50%; */
+    text-align: center;
+    /* margin: -250px 0 0 -250px; */
+}
+
+#errmsg{
+    color:red;
+    font-size:40pt;
+    font-weight:bold;
+}
+
+/* #mainpage{ */
+/*     height:auto; */
+/*     width:100%; */
+/*     text-align:center; */
+/*     padding-bottom:3em; */
+/* } */
+
+#distplot{
+    display:none;
+    padding-bottom:3em;
+}
+
+#parpanel{
+    width:370px;
+    max-height:470px;
+    margin-right:5px;
+    display:inline-block;
+    vertical-align:top;
+    background:white;
+    padding:15px 15px 15px 15px;
+    border:12px solid orange;
+    text-align:left;
+    overflow:auto;
+}
+
+.partitle{
+    border-left: 5px solid orange;
+    color: #353535;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0px 0px 15px 0px;
+    padding-left: 10px;
+}
+
+#headpar label{
+    float:left;
+    margin-right:10px;
+    width:6em;
+}
+
+.ppar{
+    margin: 5px 0 0 15px;
+}
+
+.manlink{
+    display:none;
+    margin-left:10px;
+    font-family:serif;
+    cursor:pointer;
+    color:black;
+    text-decoration:none;
+}
+
+.manlink:hover{
+    color:orange;
+}
+
+#rman{
+    font-family:verdana;
+}
+
+#distpar{
+    display:block;
+}
+
+.disttypebtn{
+    background:#EEEEEE;
+    width:30px;
+    padding:3px 5px;
+    cursor:pointer;
+    text-align:center;
+    display:inline-block;
+    font-size:0.9em;
+    font-style:italic;
+    font-family:times;
+    font-weight:bold;
+    margin-right:5px;
+}
+
+.disttypebtn:hover{
+    background:orange;
+    color:white;
+}
+
+.disttypesel{
+    background: orange;
+    color: white;
+}
+
+#bodypar{
+    display:none;
+    border-top: 3px dotted #969696;
+    margin:20px 0px 0px 0px;
+    padding:20px 0px 0px 0px;
+}
+
+#footpar{
+    display:none;
+    border-top: 3px dotted #969696;
+    margin:20px 0px 0px 0px;
+    padding:20px 0px 0px 0px;
+}
+
+#footpar label{
+    padding-left:15px;
+}
+
+.ptype{
+    padding:5px;
+}
+
+.plot-icon{
+    border: 3px solid #D7D7D7;
+    padding:2px;
+    cursor:pointer;
+    width:2.4em;
+}
+
+.plot-icon:hover{
+    border: 3px solid orange;
+}
+
+.plot-icon-sel{
+    border: 3px solid orange;
+    padding:2px;
+    cursor:pointer;
+    width:2.4em;
+}
+
+.plot-icon-sel:hover{
+    border: 3px solid #FFB92F;
+}
+
+.plot-icon-blur{
+    border: 3px solid blue;
+    padding:2px;
+    cursor:pointer;
+    width:2.4em;
+}
+
+.plot-icon-blur:hover{
+    border: 3px solid gold;
+}
+
+#plotnav{
+    margin: 20px 0 0 0;
+    text-align:right;
+}
+
+#plot-panel{
+    background:white;
+    border: 12px solid orange;
+    display: inline-block;
+    height: 500px;
+    text-align: center;
+    width: 500px;
+    cursor:default;
+}
+
+#plot-contents{
+    display:table;
+    width:500px;
+    height:500px;
+}
+
+#plot-inner{
+    display:table-cell;
+    vertical-align:middle;
+}
+
+#plot-text{
+    font-size:40px;
+    color:gray;
+}
+
+#plot-nav{
+    margin-top:25px;
+    display:none;
+    text-align:right;
+}
+
+#paramstitle{
+    font-style:italic;
+    font-weight:bold;
+}
+
+#bodypar label{
+    float:left;
+    margin-right:10px;
+    width:3em;
+}
+
+#rsource{
+    font-family:monospace;
+    vertical-align:middle;
+    margin:20px 0px 20px 0px;
+    padding:20px;
+}
+
+#footer {
+    background: #353535;
+    border-top: 5px solid orange;
+    color:white;
+    text-align:center;
+    vertical-align:middle;
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+    padding-top:1.5em;
+}
