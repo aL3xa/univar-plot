@@ -26,8 +26,9 @@ univar_plot <- function(){
   ## check sample size: positive integer not larger than 1e5 (just like that)
   ## check for decimals!!! floor/round, coerce to integer!
 
-  ## this ain't working, fuck me if I know why!
-  if (as.numeric(POST$n) <= 0)
+  ## check sample size
+  tmp_n <- as.numeric(POST$n)
+  if (tmp_n <= 0 || tmp_n > 1e5)
     stop("Sample size error!")
 
   ## distribution names

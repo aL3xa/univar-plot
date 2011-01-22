@@ -11,12 +11,6 @@
   <body>
     <div id="navbar">
       <h1 id="navtitle">Univariate plot</h1>
-      <!-- <div id="info"> -->
-      <!-- 	<span id="info-hover">LOOK AT ME!</span> -->
-      <!-- 	<span class="info-icon">?</span> -->
-      <!-- 	<span class="info-icon">"</span> -->
-      <!-- 	<span class="info-icon">i</span> -->
-      <!-- </div> -->
     </div>
     <div id="mainpage">
       <noscript>
@@ -57,8 +51,8 @@
 	    </div>
 	    <div id="footpar">
 	      <p class="partitle">Plot type</p>
-	      <p id="plottypes" class="ppar">
-		<div id="simple" class="ptype">
+	      <div id="plottypes" class="ptype">
+		<div id="simple">
 		  <img src="artwork/png/point.png" class="plot-icon" alt="point" title="point" />
 		  <img src="artwork/png/line.png" class="plot-icon" alt="line" title="line" />
 		  <img src="artwork/png/overplotted.png" class="plot-icon" alt="overploted" title="overplotted" />
@@ -66,14 +60,14 @@
 		  <img src="artwork/png/h.png" class="plot-icon" alt="histogram-like" title="histogram-like lines" />
 		  <img src="artwork/png/zig-zag.png" class="plot-icon" alt="zig-zag" title="rectilinear" />
 		</div>
-	      	<div id="other" class="ptype">
+	      	<div id="other">
 		  <img src="artwork/png/boxplot.png" class="plot-icon" alt="boxplot" title="boxplot" />
 		  <img src="artwork/png/histogram.png" class="plot-icon" alt="histogram" title="histogram" />
 		  <img src="artwork/png/density.png" class="plot-icon" alt="density" title="kernel density plot" />
 		  <img src="artwork/png/ecdf.png" class="plot-icon" alt="ecdf" title="empirical cumulative distribution function" />
 		</div>
 		<input type="hidden" id="plottype" name="plottype" value="" />
-	      </p>
+	      </div>
 	      <p id = "plotnav">
 		<input type="button" id="plotrst" title="Click to reset form!" value="Reset" />
 		<input type="button" id="plotbtn" title="Click to plot graph!" value="Plot" />

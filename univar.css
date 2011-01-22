@@ -174,7 +174,14 @@ body{
 }
 
 .ptype{
-    padding:5px;
+    padding: 0 0 0 15px;
+}
+
+#plotmsg{
+    color: orange;
+    font-size: 0.9em;
+    font-style: italic;
+    padding: 0 0 10px 15px;
 }
 
 .plot-icon{

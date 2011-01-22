@@ -339,6 +339,7 @@ $(document).ready(function(){
 
     // on change distribution
     $("#distname").change(function(){
+
 	var $el = $(this);	// create shorthand
 
 	if ($(this).val() === ""){
@@ -368,10 +369,11 @@ $(document).ready(function(){
     	    alert("Choose a distribution first!"); // show warning
     	} else if ($("#distname").val() !== ""){
     	    $("#bodypar, #footpar").show(); // show stuff
-	    $(".disttypebtn").removeClass("disttypesel"); // remove highlight from not-selected buttons
+	    $(".disttypebtn").removeClass("disttypesel"); // remove highlight from unselected buttons
 	    $(this).addClass("disttypesel");		// highlight selected button
 	    $("#footpar img").removeClass("plot-icon-sel"); // remove highlight border
-	    var distVal = ["r", "d", "p"];		    // set values
+	    $("#plottype").val("");			    // reset plot type
+	    var distVal = ["r", "d", "p"];		    // set disttype values
 	    if ($(this).index() === 0) {
 		$("#distpar").html(genParams(obj, "r")); // generate random distribution params
 		$("#other").show();		 // show other plots
@@ -402,12 +404,13 @@ $(document).ready(function(){
 	$("#footpar img:not(this)").removeClass("plot-icon-sel"); // remove highlight
 	$(this).addClass("plot-icon-sel"); // add selection border
 	$("#plottype").val(plotVals[$(this).index("#footpar img")]); // add value to plottype
+	
     });
     
 
     // update plot div
     $("#plotbtn").click(function(){
-	$("#plot-inner").html('<p id = "plot-text">Loading...</p>'); // set loading message, maybe add spinner
+	$("#plot-inner").html('<p id = "plot-text">Loading...</p>'); // set loading message, maybe add spinner/animated ...
 	$.ajax({
 	    url: "plot-univar.rhtml",
 	    type: "POST",
