@@ -407,7 +407,7 @@ $(document).ready(function(){
 
     // update plot div
     $("#plotbtn").click(function(){
-	$("#plot-inner").html('<p id = "plot-text">Loading...</p>'); // set loading message
+	$("#plot-inner").html('<p id = "plot-text">Loading...</p>'); // set loading message, maybe add spinner
 	$.ajax({
 	    url: "plot-univar.rhtml",
 	    type: "POST",
