@@ -28,7 +28,7 @@ univar_plot <- function(){
 
   ## check sample size
   tmp_n <- as.numeric(POST$n)
-  if (tmp_n <= 0 || tmp_n > 1e5)
+  if (tmp_n <= 0 || tmp_n > 1e5 || tmp_n != floor(tmp_n))
     stop("Sample size error!")
 
   ## distribution names

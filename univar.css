@@ -133,21 +133,24 @@ body{
 
 .disttypebtn{
     background:#EEEEEE;
-    width:30px;
+    width:40px;
     padding:3px 5px;
     cursor:pointer;
     text-align:center;
     display:inline-block;
     font-size:0.9em;
     font-style:italic;
-    font-family:times;
+    font-family:serif;
     font-weight:bold;
     margin-right:5px;
+    border-radius:5px;
+    -moz-border-radius:5px;	/*for firefox 3.6*/
 }
 
 .disttypebtn:hover{
     background:orange;
     color:white;
+    font-weight:bold;
 }
 
 .disttypesel{

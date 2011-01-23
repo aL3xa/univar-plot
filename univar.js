@@ -265,16 +265,16 @@ function genParams(obj, t){
 	par += '<input type = "button" id = "rnd" value = "#" title = "Generate random seed number" onclick = "genRandomSeed();" /></p>';
 
     // if density or cumulative distribution requested
-    } else if (t === "d" || t === "p") {
+    } else if (t === "dp") {
 	// if continuous distribution
 	if (obj.type == "continuous"){
-    	    par += '<p class = "ppar"><label for = "from">x<sub>min:</sub></label>';
+    	    par += '<p class = "ppar"><label for = "from">x<sub>min</sub>:</label>';
     	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></p>';
-    	    par += '<p class = "ppar"><label for = "to">x<sub>max:</sub></label>';
+    	    par += '<p class = "ppar"><label for = "to">x<sub>max</sub>:</label>';
     	    par += '<input type = "text" size = "5" id = "to" name = "to" value = "' + obj.xlim[1] + '" title = "Xmax" /></p>';
 	} // end if continuous
     } else {
-	return false;
+	return false;		// a little measure of precaution
     } // end if
 
     // add sample size
@@ -291,9 +291,9 @@ function genParams(obj, t){
 
 } // end genParams
 
-// reset form
-function resetForm(msg, after){
-    var q = confirm(msg);	// show confirmation dialog
+// reset layout
+function resetLayout(msg, callback){
+    var q = msg ? confirm(msg) : true;	// show confirmation dialog... or not
     if (q === true) {
 	// reset layout to initial state
 	$("#distname, #disttype, #plottype").val("");
@@ -304,12 +304,11 @@ function resetForm(msg, after){
 	// $("#plottype :gt(0)").remove();		      // remove options from plot types
 	$("#plot-inner").html('<p id = "plot-text">Your plot<br />goes here...</p>'); // reset plot text
     } else if (q === false) {
-	after ? after : false;	// some extra space
+	callback ? callback : false;	// some extra space
     } else {
 	alert("Unknown operation"); // advertise function bug
     } // end if
-} // end resetForm
-
+} // end resetLayout
 
 // // R source generator
 // function RSourceGen(){
@@ -329,6 +328,8 @@ $(document).ready(function(){
     
     var obj;			// define dist data
 
+    resetLayout();		// guess what?
+
     // load <option> items
     $.each(dists, function(i, data){
 	$("#distname").append($("<option></option>").attr({"value":data.short}).text(data.name)); // populate select element
@@ -343,7 +344,7 @@ $(document).ready(function(){
 	var $el = $(this);	// create shorthand
 
 	if ($(this).val() === ""){
-	    resetForm("This will reset application layout to initial state.\nContinue?", $el.val($el.data("distval"))); // show confirm box
+	    resetLayout("This will reset application layout to initial state.\nContinue?", $el.val($el.data("distval"))); // show confirm box
 	} else if ($(this).val() !== ""){		      // if distname not empty =)
 	    obj = $("#distname option[value='" + $(this).val() + "']").data("distdata"); // set distdata data to global variable
 	    $("#wikiurl").attr({"href":obj.wikiurl, "title":"See Wikipedia page about the " + obj.name + " distribution"}); // set href for Wikipedia link
@@ -354,7 +355,9 @@ $(document).ready(function(){
 	    if ($("#disttype").val() === "r"){
 		$("#distpar").html(genParams(obj, "r")); // generate random params
 	    } else if ($("#disttype").val() === "d" || $("#disttype").val() === "p") {
-		$("#distpar").html(genParams(obj, $("#disttype").val())); // generate d/p params
+		$("#distpar").html(genParams(obj, "dp")); // generate d/p params
+	    } else {
+		// do nothing
 	    } // end if
 	} else {
 	    alert("Distribution name unknown!"); // you never know...
@@ -364,28 +367,59 @@ $(document).ready(function(){
 
     // change distribution type
     $("#disttypebtns span").click(function(){
+
     	if ($("#distname").val() === "") { // if distribution not specified
+
     	    $("#distpar").html(""); // remove distribution params
     	    alert("Choose a distribution first!"); // show warning
+
     	} else if ($("#distname").val() !== ""){
+
+	    var distTypeVal = $("#disttype").val(); // distribution type value
+
     	    $("#bodypar, #footpar").show(); // show stuff
-	    $(".disttypebtn").removeClass("disttypesel"); // remove highlight from unselected buttons
+	    $(".disttypebtn").removeClass("disttypesel"); // remove highlight from disttype buttons
 	    $(this).addClass("disttypesel");		// highlight selected button
-	    $("#footpar img").removeClass("plot-icon-sel"); // remove highlight border
+	    $("#footpar img").removeClass("plot-icon-sel"); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
-	    var distVal = ["r", "d", "p"];		    // set disttype values
-	    if ($(this).index() === 0) {
-		$("#distpar").html(genParams(obj, "r")); // generate random distribution params
-		$("#other").show();		 // show other plots
-	    } else if ($(this).index() === 1 || $(this).index() === 2) {
-		$("#distpar").html(genParams(obj, "d")); // generate density distribution params
-		$("#other").hide();		 // hide other plots
-	    } else {
+	    // random disttype
+	    switch($(this).index()){
+	    
+	    case 0:
+		if (distTypeVal === "r") {
+		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "r")) : false; // reset distpar
+		} else {
+		    $("#distpar").html(genParams(obj, "r")); // generate random distribution params
+		    $("#other").show();			     // show other plots
+		} // end if
+		break;
+
+	    // density/cumulative disttype
+	    case 1:
+		if (distTypeVal === "d") {
+		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "dp")) : false; // reset distpar
+		} else {
+		    $("#distpar").html(genParams(obj, "dp")); // generate density distribution params
+		    $("#other").hide();		 // hide other plots
+		} // end if
+		break;
+
+	    case 2:
+		if (distTypeVal === "p") {
+		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "dp")) : false; // reset distpar
+		} else {
+		    $("#distpar").html(genParams(obj, "dp")); // generate density distribution params
+		    $("#other").hide();		 // hide other plots
+		} // end if
+		break;
+
+	    default:
 	        alert("Unknown distribution type!"); // you never know
-	    } // end if
+		break;
+	    } // end switch $(this).index()
 
+	    var distVal = ["r", "d", "p"]; // set disttype values
 	    $("#disttype").val(distVal[$(this).index()]); // set disttype value
-
     	} else {
 	    alert("Distribution type unknown!"); // you never know...
 	} // end if
@@ -394,17 +428,17 @@ $(document).ready(function(){
 
     // reset form
     $("#plotrst").click(function(){
-	resetForm("Really reset form?", null); // show confirm box
+	resetLayout("Really reset form?"); // show confirm box
     });
 
 
     // set plot type
     var plotVals = ["p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf"]; // plottype values
     $("#footpar img").click(function(){
+	var pVal = plotVals[$(this).index("#footpar img")]; // set plottype value
 	$("#footpar img:not(this)").removeClass("plot-icon-sel"); // remove highlight
 	$(this).addClass("plot-icon-sel"); // add selection border
-	$("#plottype").val(plotVals[$(this).index("#footpar img")]); // add value to plottype
-	
+	$("#plottype").val(pVal); // add plottype value to hidden input
     });
     
 
