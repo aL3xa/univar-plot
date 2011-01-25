@@ -193,6 +193,8 @@ body{
     padding:2px;
     cursor:pointer;
     width:2.4em;
+    -moz-border-radius:7px;
+    border-radius:7px;
 }
 
 .plot-icon:hover{
@@ -204,6 +206,8 @@ body{
     padding:2px;
     cursor:pointer;
     width:2.4em;
+    -moz-border-radius:7px;
+    border-radius:7px;
 }
 
 .plot-icon-sel:hover{
