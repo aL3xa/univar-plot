@@ -89,6 +89,8 @@ body{
     border:12px solid orange;
     text-align:left;
     overflow:auto;
+    -moz-border-radius:20px;
+    border-radius:20px;
 }
 
 .partitle{
@@ -238,6 +240,8 @@ body{
     text-align: center;
     width: 500px;
     cursor:default;
+    -moz-border-radius:20px;
+    border-radius:20px;
 }
 
 #plot-contents{
