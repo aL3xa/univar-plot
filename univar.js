@@ -296,12 +296,11 @@ function resetLayout(msg, callback){
     var q = msg ? confirm(msg) : true;	// show confirmation dialog... or not
     if (q === true) {
 	// reset layout to initial state
-	$("#distname, #disttype, #plottype").val("");
 	$(".manlink, #bodypar, #footpar").hide(); // hide stuff
+	$("#distname, #disttype, #plottype").val(""); // reset values
 	$(".disttypebtn").removeClass("disttypesel"); // remove highlight from buttons
 	$("#footpar img").removeClass("plot-icon-sel");  // remove highlight border
 	$("#distpar").html("");			      // empty distribution parameters
-	// $("#plottype :gt(0)").remove();		      // remove options from plot types
 	$("#plot-inner").html('<p id = "plot-text">Your plot<br />goes here...</p>'); // reset plot text
     } else if (q === false) {
 	callback ? callback : false;	// some extra space
@@ -309,6 +308,7 @@ function resetLayout(msg, callback){
 	alert("Unknown operation"); // advertise function bug
     } // end if
 } // end resetLayout
+
 
 // // R source generator
 // function RSourceGen(){
@@ -440,7 +440,11 @@ $(document).ready(function(){
 	$(this).addClass("plot-icon-sel"); // add selection border
 	$("#plottype").val(pVal); // add plottype value to hidden input
     });
-    
+
+    // make blocks collapsible
+    $(".partitle").click(function(){
+	$(this).next().slideToggle("fast");
+    });
 
     // update plot div
     $("#plotbtn").click(function(){

@@ -25,53 +25,59 @@
 	  <form action="#" method="post">
 	    <div id = "headpar">
 	      <p name="main" class="partitle">Main options</p>
-	      <p id="distnames" class="ppar">
-		<label for="distname">Distribution:</label>
-		<select id="distname" name="distname">
-		  <option value="" selected="selected">-- choose --</option>
-		</select>
-		<a id="wikiurl" class="manlink" target="_blank">W</a>
-		<a id="rman" class="manlink" target="_blank">R</a>
-	      </p>
-	      <p id="disttypes" class="ppar">
-		<label for="disttypebtns">Type:</label>
-		<div id="disttypebtns">
-		  <span class="disttypebtn" id="random" title = "Generate (pseudo)random variable">X</span>
-		  <span class="disttypebtn" id="pdf" title = "Generate probability mass/density function">f(X)</span>
-		  <span class="disttypebtn" id="cdf" title = "Generate cumulative distribution function">F(X)</span>
-		  <input type="hidden" id="disttype" name="disttype" value="" />
-		</div>
-	      </p>
+	      <div id="headpar-content">
+		<p id="distnames" class="ppar">
+		  <label for="distname">Distribution:</label>
+		  <select id="distname" name="distname">
+		    <option value="" selected="selected">-- choose --</option>
+		  </select>
+		  <a id="wikiurl" class="manlink" target="_blank">W</a>
+		  <a id="rman" class="manlink" target="_blank">R</a>
+		</p>
+		<p id="disttypes" class="ppar">
+		  <label for="disttypebtns">Type:</label>
+		  <div id="disttypebtns">
+		    <span class="disttypebtn" id="random" title = "Generate (pseudo)random variable">X</span>
+		    <span class="disttypebtn" id="pdf" title = "Generate probability mass/density function">f(X)</span>
+		    <span class="disttypebtn" id="cdf" title = "Generate cumulative distribution function">F(X)</span>
+		    <input type="hidden" id="disttype" name="disttype" value="" />
+		  </div>
+		</p>
+	      </div>
 	    </div>
 	    <div id="bodypar">
 	      <p class="partitle">Distribution parameters</p>
-	      <div id="distpar">
-		<!-- plot parameters go here -->
+	      <div id="bodypar-content">
+		<div id="distpar">
+		  <!-- plot parameters go here -->
+		</div>
 	      </div>
 	    </div>
 	    <div id="footpar">
 	      <p class="partitle">Plot type</p>
-	      <div id="plottypes" class="ptype">
-		<div id="simple">
-		  <img src="artwork/png/point.png" class="plot-icon" alt="point" title="point" />
-		  <img src="artwork/png/line.png" class="plot-icon" alt="line" title="line" />
-		  <img src="artwork/png/overplotted.png" class="plot-icon" alt="overploted" title="overplotted" />
-		  <img src="artwork/png/stroked.png" class="plot-icon" alt="stroked" title="slash-dotted" />
-		  <img src="artwork/png/h.png" class="plot-icon" alt="histogram-like" title="histogram-like lines" />
-		  <img src="artwork/png/zig-zag.png" class="plot-icon" alt="zig-zag" title="rectilinear" />
+	      <div id="partitle-content">
+		<div id="plottypes" class="ptype">
+		  <div id="simple">
+		    <img src="artwork/png/point.png" class="plot-icon" alt="point" title="point" />
+		    <img src="artwork/png/line.png" class="plot-icon" alt="line" title="line" />
+		    <img src="artwork/png/overplotted.png" class="plot-icon" alt="overploted" title="overplotted" />
+		    <img src="artwork/png/stroked.png" class="plot-icon" alt="stroked" title="slash-dotted" />
+		    <img src="artwork/png/h.png" class="plot-icon" alt="histogram-like" title="histogram-like lines" />
+		    <img src="artwork/png/zig-zag.png" class="plot-icon" alt="zig-zag" title="rectilinear" />
+		  </div>
+	      	  <div id="other">
+		    <img src="artwork/png/boxplot.png" class="plot-icon" alt="boxplot" title="boxplot" />
+		    <img src="artwork/png/histogram.png" class="plot-icon" alt="histogram" title="histogram" />
+		    <img src="artwork/png/density.png" class="plot-icon" alt="density" title="kernel density plot" />
+		    <img src="artwork/png/ecdf.png" class="plot-icon" alt="ecdf" title="empirical cumulative distribution function" />
+		  </div>
+		  <input type="hidden" id="plottype" name="plottype" value="" />
 		</div>
-	      	<div id="other">
-		  <img src="artwork/png/boxplot.png" class="plot-icon" alt="boxplot" title="boxplot" />
-		  <img src="artwork/png/histogram.png" class="plot-icon" alt="histogram" title="histogram" />
-		  <img src="artwork/png/density.png" class="plot-icon" alt="density" title="kernel density plot" />
-		  <img src="artwork/png/ecdf.png" class="plot-icon" alt="ecdf" title="empirical cumulative distribution function" />
+		<div id = "plotnav">
+		  <input type="button" id="plotrst" title="Click to reset form!" value="Reset" />
+		  <input type="button" id="plotbtn" title="Click to plot graph!" value="Plot" />
 		</div>
-		<input type="hidden" id="plottype" name="plottype" value="" />
 	      </div>
-	      <p id = "plotnav">
-		<input type="button" id="plotrst" title="Click to reset form!" value="Reset" />
-		<input type="button" id="plotbtn" title="Click to plot graph!" value="Plot" />
-	      </p>
 	    </div>
 	  </form>
 	</div>

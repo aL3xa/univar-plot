@@ -7,13 +7,13 @@ univar_plot <- function(){
   ## load packages
   require(stats)
   require(graphics)
-  ## require(rjson)                        # at some point this will be required
-
+  require(rjson)
+  
   ## SERVER-SIDE FORM VALIDATION ##
 
   ## sample-size limit: 100000 - just like that!
   ## check for negative sample size (n)
-  ## check for # of args!
+  ## check for # of args! - a tricky one
   
   ## check for missing arguments
   if (any(sapply(POST, is.null)))
@@ -195,10 +195,13 @@ univar_plot <- function(){
   } # end plotting
   
   cat('<img src = "img/', plot_name, '" alt = "rplot" />', sep = "")
+  ## toJSON(list(plot = plot_name, err_msg = NULL))
   
 } # end univar plot
 
 err <- function(e) cat('<p id = "plot-text" class = "rfault">', e$message, '</p>')
+
+## err function will put e$message in json, result as null, serialize to json, unserialize in JS
 
 # set function execution time limit
 setTimeLimit(elapsed = 10)
@@ -206,3 +209,10 @@ setTimeLimit(elapsed = 10)
 tryCatch(univar_plot(), error = err)
 ## reset time limit
 setTimeLimit()
+
+
+## write code in chunks - several functions, one that will call them all, if necessary!
+## - one that will check for code insertion, use POST as fn argument
+## - afterwards, everything is just a routine...
+## beautify plots
+## - mathematical notation on x & y axis
