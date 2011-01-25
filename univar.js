@@ -297,6 +297,8 @@ function resetLayout(msg, callback){
     if (q === true) {
 	// reset layout to initial state
 	$(".manlink, #bodypar, #footpar").hide(); // hide stuff
+	$(".partitle, .disttypebtn, #footpar img").css("opacity", 1);
+	$(".partitle ~ div").show();
 	$("#distname, #disttype, #plottype").val(""); // reset values
 	$(".disttypebtn").removeClass("disttypesel"); // remove highlight from buttons
 	$("#footpar img").removeClass("plot-icon-sel");  // remove highlight border
@@ -322,7 +324,6 @@ function resetLayout(msg, callback){
 // 	rsrc += $(this).val
 
 // } // RSourceGen
-
 
 $(document).ready(function(){
     
@@ -378,9 +379,9 @@ $(document).ready(function(){
 	    var distTypeVal = $("#disttype").val(); // distribution type value
 
     	    $("#bodypar, #footpar").show(); // show stuff
-	    $(".disttypebtn").removeClass("disttypesel"); // remove highlight from disttype buttons
-	    $(this).addClass("disttypesel");		// highlight selected button
-	    $("#footpar img").removeClass("plot-icon-sel"); // remove plot highlight
+	    $(".disttypebtn").removeClass("disttypesel").fadeTo(50, 0.5); // remove highlight from disttype buttons
+	    $(this).addClass("disttypesel").fadeTo(50, 1.0);		// highlight selected button
+	    $("#footpar img").removeClass("plot-icon-sel").fadeTo(0, 1); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
 	    // random disttype
 	    switch($(this).index()){
@@ -436,14 +437,17 @@ $(document).ready(function(){
     var plotVals = ["p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf"]; // plottype values
     $("#footpar img").click(function(){
 	var pVal = plotVals[$(this).index("#footpar img")]; // set plottype value
-	$("#footpar img:not(this)").removeClass("plot-icon-sel"); // remove highlight
-	$(this).addClass("plot-icon-sel"); // add selection border
+	$("#footpar img:not(this)").removeClass("plot-icon-sel").fadeTo(50, 0.4); // remove highlight
+	$(this).addClass("plot-icon-sel").fadeTo(50, 1); // add selection border
 	$("#plottype").val(pVal); // add plottype value to hidden input
     });
 
     // make blocks collapsible
     $(".partitle").click(function(){
-	$(this).next().slideToggle("fast");
+	$el = $(this);
+	$el.next().slideToggle("fast", function(){
+	    $el.css("opacity") == 0.4 ? $el.css({"opacity":"1.0"}) : $el.css({"opacity":"0.4"});
+	});
     });
 
     // update plot div
