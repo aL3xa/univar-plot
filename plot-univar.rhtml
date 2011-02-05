@@ -1,5 +1,163 @@
 ## comment RApache errors
-RApacheOutputErrors(TRUE, "<!--", "-->")
+RApacheOutputErrors(TRUE, "<!--\n", "-->\n") # development purposes only
+## RApacheOutputErrors(FALSE)
+
+
+
+## should I put this in validate_form
+nms <- names(POST)                    # form input names
+nargs <- length(POST)                 # number of fields
+txt_inputs <- c("distname", "disttype", "plottype") # textual inputs
+num_inputs <- setdiff(nms, txt_inputs)              # numerical inputs
+## regexp types
+re_int <- "^-?[0-9]+$"  # integer regular expression
+re_posint <- "^[0-9]+$" # positive integer regular expression
+re_num <- "^(-|\\+)?[0-9]+(\\.[0-9]+)?$" # numeric regexp
+
+## distribution names
+dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull")
+
+## discrete distributions
+dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d")
+## continuous distributions
+dist_c <- setdiff(dists, discrete)
+
+
+## FORM VALIDATION
+validate_form <- function(POST) {
+
+  ## check for missing args
+  if (any(sapply(POST, is.null)))
+    stop("Submitted empty fields")
+  
+  ## check distribution names
+  if (!POST$distname %in% dists)
+    stop("Unknown distribution")
+
+  ## check distribution types
+  if (!POST$disttype %in% c("r", "d", "p"))
+    stop("Unknown distribution type")
+
+  ## check numeric
+  num_check <- function(x, ...) {
+    if (grepl(re_num, x, ...))               # check numeric regexp
+      x <- as.numeric(x)                # convert to numeric =)
+    else
+      stop("Invalid form fields")       # throw error
+  }
+  
+  ## convert to numeric
+  POST[num_inputs] <- lapply(POST[num_inputs], num_check)
+
+  ## check plot type
+  plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf")
+  if (!POST$plottype %in% plots)
+    stop("Unknown plot type")
+
+  
+  ## check distribution parameters
+
+  ## check sample size
+  if (!"n" %in% nms) {
+    stop("Sample size is missing")
+  } else {
+    tmp_n <- as.numeric(POST$n)
+    ## positive integer not larger than 1e5
+    if (tmp_n <= 0 || tmp_n > 1e5 || tmp_n != floor(tmp_n))
+      stop("Sample size error!")
+  }
+
+  ## (pseudo)random parameters
+  if (POST$disttype == "r") {
+    if (!("seed" %in% nms)) {
+      stop("Seed not given!")
+    } else {
+      ## check number of args
+      arg_3 <- c("chisq", "exp", "geom", "pois", "t")
+      arg_4 <- setdiff(dists, c(arg_3, "hyper"))
+      ## arg_5 <- "hyper"
+      if (POST$distname %in% arg_3)
+        stopifnot(nargs == 6)
+      if (POST$distname %in% arg_4)
+        stopifnot(nargs == 7)
+      if (POST$distname == "hyper")
+        stopifnot(nargs == 8)
+      }
+  }
+  
+  ## PMF/PDF & CDF
+  if (POST$disttype %in% c("d", "p")) {
+    ## check from & to
+    if (!all(c("from", "to")) %in% nms) {
+      stop("x-axis limit(s) are missing") # throw error
+    } else {
+      ## check number of args
+      arg_2 <- c("geom", "pois")
+      arg_3 <- c("beta", "binom", "nbinom", "unif_d")
+      arg_4 <- c("chisq", "exp", "hyper", "t")
+      arg_5 <- setdiff(dists, c(arg_2, arg_3, arg_4))
+      if (POST$distname %in% arg_2)
+        stopifnot(nargs == 5)
+      if (POST$distname %in% arg_3)
+        stopifnot(nargs == 6)
+      if (POST$distname %in% arg_4)
+        stopifnot(nargs == 7)
+      if (POST$distname %in% arg_5)
+        stopifnot(nargs == 8)
+      ## check x-axis limits
+      if (POST$from > POST$to) {
+        stop("Xmin larger than Xmax")
+      }
+    }
+  }
+
+  ## check distribution parameters
+  ## beta
+  check_beta <- function() {
+    with(POST,
+         if (!all(c(a, b) > 0)) {
+           stop("shape parameters must be real positive numbers")
+         })
+  }
+  ## binomial
+  check_binom <- function() {
+    with(POST,
+         if (!(is.integer(size) & size >= 0)) {
+           stop("invalid number of trials")
+         }
+         if (0 <= p & p <= 1) {
+           stop("invalid p")
+         })
+  }
+  ## cauchy
+  check_cauchy <- function() {
+    with(POST,
+         if (!scale > 0) {
+           stop("Scale not positive real")
+         })
+  }
+  ## chi-square
+  check_chisq <- function() {
+    with(POST,
+         if (!df > 0) {
+           stop("degrees of freedom not positive")
+         })
+  }
+  ## exponential
+  check_exp <- function() {
+    with(POST,
+         if (!all(c(df1, df2) > 0)
+         
+         
+  
+         
+
+
+
+  
+} ## end
+
+
 
 ## a lengthy plot function
 univar_plot <- function(){
@@ -7,57 +165,8 @@ univar_plot <- function(){
   ## load packages
   require(stats)
   require(graphics)
-  require(rjson)
+  require(RJSONIO)
   
-  ## SERVER-SIDE FORM VALIDATION ##
-
-  ## sample-size limit: 100000 - just like that!
-  ## check for negative sample size (n)
-  ## check for # of args! - a tricky one
-  
-  ## check for missing arguments
-  if (any(sapply(POST, is.null)))
-    stop("Submitted empty fields!")
-
-  ## avoid logical values conversion
-  if (any(c("TRUE", "FALSE", "T", "F") %in% POST))
-    stop("Logical values not allowed")
-
-  ## check sample size: positive integer not larger than 1e5 (just like that)
-  ## check for decimals!!! floor/round, coerce to integer!
-
-  ## check sample size
-  tmp_n <- as.numeric(POST$n)
-  if (tmp_n <= 0 || tmp_n > 1e5 || tmp_n != floor(tmp_n))
-    stop("Sample size error!")
-
-  ## distribution names
-  dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull", "wilcox")
-  ## check for available distributions
-  if (!(POST$distname %in% dists))
-    stop("Unknown distribution!")
-  
-  ## discrete distributions
-  discrete <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d", "wilcox")
-  ## continuous distributions
-  continuous <- setdiff(dists, discrete)
-  
-  ## check disttype params
-  if (!(POST$disttype %in% c("r", "d", "p")))
-    stop("Unknown distribution type!")
-  
-  ## check plottype params - this will change soon!
-  plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf")
-    if (!(POST$plottype %in% plots))
-    stop("Unknown plot type!")
-
-    ## convert POST args to appropriate format
-  tmp <- which(names(POST) %in% c("distname", "disttype", "plottype")) # get non-numeric params
-  POST[-tmp] <- lapply(POST[-tmp], as.numeric) # convert dist params to numeric
-  ## check for failed conversions
-  if (any(sapply(POST, is.na)))
-    stop("Submitted non-numeric arguments!")
-
   ## set file path - DO NOT UNLIST - malicious!!! someone can pass more inputs
   ## this is gonna be lengthy one, don't repeat switch!!! write a function!
   plot_name <- paste(paste(unlist(POST), collapse = "_"), ".png", sep = "") # set filename

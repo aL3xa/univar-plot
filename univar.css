@@ -148,6 +148,8 @@ body{
     margin-right:5px;
     border-radius:5px;
     -moz-border-radius:5px;	/*for firefox 3.6*/
+    user-select:none;
+    -moz-user-select:none;
 }
 
 .disttypebtn:hover{

@@ -4,7 +4,7 @@ var dists =
 	 "name":"beta",
 	 "short":"beta",
 	 "type":"continuous",
-	 "xlim": ["0", "1"],
+	 // "xlim": ["0", "1"],
 	 "params": ["shape1", "shape2"],
 	 "values": ["2", "2"],
 	 "labels": ["&alpha;", "&beta;"],
@@ -198,18 +198,18 @@ var dists =
 	 "titles": ["Shape parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Weibull_distribution",
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html"
-     }, {
-	 "name":"Wilcoxon",
-	 "short":"wilcox",
-	 "type":"discrete",
-	 // "xlim": ["", ""],
-	 "params": ["n1", "n2"],
-	 "values": ["50", "50"],
-	 "labels": ["n<sub>1</sub>", "n<sub>2</sub>"],
-	 "titles": ["# of observations in first sample", "# of observations in second sample"],
-	 "wikiurl": "http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Wilcoxon.html"
-     }
+     }// , {
+     // 	 "name":"Wilcoxon",
+     // 	 "short":"wilcox",
+     // 	 "type":"discrete",
+     // 	 // "xlim": ["", ""],
+     // 	 "params": ["n1", "n2"],
+     // 	 "values": ["50", "50"],
+     // 	 "labels": ["n<sub>1</sub>", "n<sub>2</sub>"],
+     // 	 "titles": ["# of observations in first sample", "# of observations in second sample"],
+     // 	 "wikiurl": "http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test",
+     // 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Wilcoxon.html"
+     // }
  ];
 
 
@@ -266,8 +266,8 @@ function genParams(obj, t){
 
     // if density or cumulative distribution requested
     } else if (t === "dp") {
-	// if continuous distribution
-	if (obj.type == "continuous"){
+	// if continuous distribution (beta has hardcoded params)
+	if (obj.type === "continuous" && obj.short !== "beta"){
     	    par += '<p class = "ppar"><label for = "from">x<sub>min</sub>:</label>';
     	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></p>';
     	    par += '<p class = "ppar"><label for = "to">x<sub>max</sub>:</label>';
@@ -278,8 +278,9 @@ function genParams(obj, t){
     } // end if
 
     // add sample size
+    title = obj.type === "continuous" ? "Sample size" : "# of trials";
     par += '<p class = "ppar"><label for = "n">N:</label>';
-    par += '<input type = "text" size = "5" id = "n" name = "n" value = "' + n + '" title = "Sample size" /></p>';
+    par += '<input type = "text" size = "5" id = "n" name = "n" value = "' + n + '" title = "' + title + '" /></p>';
 
     // add distribution parameters
     for (i = 0; i < obj.params.length; i++){
@@ -307,7 +308,7 @@ function resetLayout(msg, callback){
     } else if (q === false) {
 	callback ? callback : false;	// some extra space
     } else {
-	alert("Unknown operation"); // advertise function bug
+	alert("Invalid layout reset"); // advertise function bug
     } // end if
 } // end resetLayout
 
@@ -378,9 +379,11 @@ $(document).ready(function(){
 
 	    var distTypeVal = $("#disttype").val(); // distribution type value
 
+	    // deal with timeout in fadeTo
+
     	    $("#bodypar, #footpar").show(); // show stuff
-	    $(".disttypebtn").removeClass("disttypesel").fadeTo(50, 0.5); // remove highlight from disttype buttons
-	    $(this).addClass("disttypesel").fadeTo(50, 1.0);		// highlight selected button
+	    $(".disttypebtn").removeClass("disttypesel").fadeTo(0, 0.5); // remove highlight from disttype buttons
+	    $(this).addClass("disttypesel").fadeTo(0, 1.0);		// highlight selected button
 	    $("#footpar img").removeClass("plot-icon-sel").fadeTo(0, 1); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
 	    // random disttype
@@ -446,7 +449,7 @@ $(document).ready(function(){
     $(".partitle").click(function(){
 	$el = $(this);
 	$el.next().slideToggle("fast", function(){
-	    $el.css("opacity") == 0.4 ? $el.css({"opacity":"1.0"}) : $el.css({"opacity":"0.4"});
+	    $el.css("opacity") == 0.4 ? $el.css({"opacity":"1.0"}).attr({"title":"Click to collapse field"}) : $el.css({"opacity":"0.4"}).attr({"title":"Click to expand field"});
 	});
     });
 
