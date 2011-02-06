@@ -4,27 +4,31 @@ RApacheOutputErrors(TRUE, "<!--\n", "-->\n") # development purposes only
 
 
 
-## should I put this in validate_form
-nms <- names(POST)                    # form input names
-nargs <- length(POST)                 # number of fields
-txt_inputs <- c("distname", "disttype", "plottype") # textual inputs
-num_inputs <- setdiff(nms, txt_inputs)              # numerical inputs
-## regexp types
-re_int <- "^-?[0-9]+$"  # integer regular expression
-re_posint <- "^[0-9]+$" # positive integer regular expression
-re_num <- "^(-|\\+)?[0-9]+(\\.[0-9]+)?$" # numeric regexp
 
-## distribution names
-dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull")
-
-## discrete distributions
-dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d")
-## continuous distributions
-dist_c <- setdiff(dists, discrete)
 
 
 ## FORM VALIDATION
 validate_form <- function(POST) {
+
+  nms <- names(POST)                    # form input names
+  nargs <- length(POST)                 # number of fields
+  txt_inputs <- c("distname", "disttype", "plottype") # textual inputs
+  num_inputs <- setdiff(nms, txt_inputs)              # numerical inputs
+
+  ## regexp types
+  re_int <- "^-?[0-9]+$"  # integer regular expression
+  re_posint <- "^[0-9]+$" # positive integer regular expression
+  re_num <- "^(-|\\+)?[0-9]+(\\.[0-9]+)?$" # numeric regexp
+  
+
+  
+  ## distribution names
+  dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull")
+  
+  ## discrete distributions
+  dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d")
+  ## continuous distributions
+  dist_c <- setdiff(dists, discrete)
 
   ## check for missing args
   if (any(sapply(POST, is.null)))
@@ -117,7 +121,9 @@ validate_form <- function(POST) {
     with(POST,
          if (!all(c(a, b) > 0)) {
            stop("shape parameters must be real positive numbers")
-         })
+         }
+         if (POST$distname
+         )
   }
   ## binomial
   check_binom <- function() {
