@@ -3,10 +3,6 @@ RApacheOutputErrors(TRUE, "<!--\n", "-->\n") # development purposes only
 ## RApacheOutputErrors(FALSE)
 
 
-
-
-
-
 ## FORM VALIDATION
 validate_form <- function(POST) {
 
@@ -15,13 +11,10 @@ validate_form <- function(POST) {
   txt_inputs <- c("distname", "disttype", "plottype") # textual inputs
   num_inputs <- setdiff(nms, txt_inputs)              # numerical inputs
 
-  ## regexp types
-  re_int <- "^-?[0-9]+$"  # integer regular expression
-  re_posint <- "^[0-9]+$" # positive integer regular expression
-  re_num <- "^(-|\\+)?[0-9]+(\\.[0-9]+)?$" # numeric regexp
-  
+  re_num <- "^-?[0-9]+(\\.[0-9]+)?$" # numeric regexp
+  re_inf <- "^-?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric with Inf regexp
+  re_int <- "^-?[0-9]+$"                   # integer regexp
 
-  
   ## distribution names
   dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull")
   
@@ -30,130 +23,129 @@ validate_form <- function(POST) {
   ## continuous distributions
   dist_c <- setdiff(dists, discrete)
 
-  ## check for missing args
-  if (any(sapply(POST, is.null)))
-    stop("Submitted empty fields")
-  
+  ## plot types
+  plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf")
+
+  ## error message? wrap in vector/list
+  err_status <- FALSE
+  err_list<- list()
+
   ## check distribution names
-  if (!POST$distname %in% dists)
-    stop("Unknown distribution")
+  if (!POST$distname %in% dists) {
+    err_status <- TRUE
+    err_list$main <- "Unknown distribution"
+  }
 
   ## check distribution types
   if (!POST$disttype %in% c("r", "d", "p"))
     stop("Unknown distribution type")
 
-  ## check numeric
-  num_check <- function(x, ...) {
-    if (grepl(re_num, x, ...))               # check numeric regexp
-      x <- as.numeric(x)                # convert to numeric =)
-    else
-      stop("Invalid form fields")       # throw error
-  }
-  
-  ## convert to numeric
-  POST[num_inputs] <- lapply(POST[num_inputs], num_check)
-
   ## check plot type
-  plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf")
   if (!POST$plottype %in% plots)
     stop("Unknown plot type")
 
-  
-  ## check distribution parameters
+  ## distribution parameters
+  distpars <- list(
+                   beta = c("shape1", "shape2"),
+                   binom = c("size", "prob"),
+                   cauchy = c("location", "scale"),
+                   chisq = "dfchisq",
+                   exp = "rate",
+                   f = c("df1", "df2"),
+                   gamma = c("shape", "scale"),
+                   geom = "p",
+                   hyper = c("m", "total", "k"),
+                   logis = c("location", "scale"),
+                   lnorm = c("meanlog", "sdlog"),
+                   nbinom = c("x", "p"),
+                   norm = c("mean", "var"),
+                   pois = "lambda",
+                   t = "df",
+                   unif_d = c("a_disc", "b_disc"),
+                   unif_c = c("a_cont", "b_cont"),
+                   weibull = c("shape", "scale")
+                   )
 
-  ## check sample size
-  if (!"n" %in% nms) {
-    stop("Sample size is missing")
-  } else {
-    tmp_n <- as.numeric(POST$n)
-    ## positive integer not larger than 1e5
-    if (tmp_n <= 0 || tmp_n > 1e5 || tmp_n != floor(tmp_n))
-      stop("Sample size error!")
-  }
-
-  ## (pseudo)random parameters
-  if (POST$disttype == "r") {
-    if (!("seed" %in% nms)) {
-      stop("Seed not given!")
-    } else {
-      ## check number of args
-      arg_3 <- c("chisq", "exp", "geom", "pois", "t")
-      arg_4 <- setdiff(dists, c(arg_3, "hyper"))
-      ## arg_5 <- "hyper"
-      if (POST$distname %in% arg_3)
-        stopifnot(nargs == 6)
-      if (POST$distname %in% arg_4)
-        stopifnot(nargs == 7)
-      if (POST$distname == "hyper")
-        stopifnot(nargs == 8)
-      }
-  }
+  ## ## value labels
+  ## distlabs <- list(
+  ##                  beta = c("&alpha;", "&beta;"),
+  ##                  binom = c("x", "p"),
+  ##                  cauchy = c("x<sub>0</sub>", "&gamma;"),
+  ##                  chisq = "df",
+  ##                  exp = "&lambda;",
+  ##                  f = c("df<sub>1</sub>", "df<sub>2</sub>"),
+  ##                  gamma = c("k", "&theta;"),
+  ##                  geom = "p",
+  ##                  hyper = c("m", "n", "k"),
+  ##                  logis = c("&mu;", "s"),
+  ##                  lnorm = c("&mu;", "&sigma;"),
+  ##                  nbinom = c("x", "p"),
+  ##                  norm = c("&mu;", "&sigma;<sup>2</sup>"),
+  ##                  pois = "&lambda;",
+  ##                  t = "df",
+  ##                  unif_d = c("a", "b"),
+  ##                  unif_d = c("a", "b"),
+  ##                  weibull = c("k", "&lambda;")
+  ##                  ) 
   
-  ## PMF/PDF & CDF
-  if (POST$disttype %in% c("d", "p")) {
-    ## check from & to
-    if (!all(c("from", "to")) %in% nms) {
-      stop("x-axis limit(s) are missing") # throw error
-    } else {
-      ## check number of args
-      arg_2 <- c("geom", "pois")
-      arg_3 <- c("beta", "binom", "nbinom", "unif_d")
-      arg_4 <- c("chisq", "exp", "hyper", "t")
-      arg_5 <- setdiff(dists, c(arg_2, arg_3, arg_4))
-      if (POST$distname %in% arg_2)
-        stopifnot(nargs == 5)
-      if (POST$distname %in% arg_3)
-        stopifnot(nargs == 6)
-      if (POST$distname %in% arg_4)
-        stopifnot(nargs == 7)
-      if (POST$distname %in% arg_5)
-        stopifnot(nargs == 8)
-      ## check x-axis limits
-      if (POST$from > POST$to) {
-        stop("Xmin larger than Xmax")
-      }
+  ## unique parameters
+  unqpars <- unique(unlist(distpars))
+
+  ## check form
+  check_inputs <- function(params) {
+    ## check distribution specific arguments
+    if (POST$disttype == "r") {
+      ## check inputs
+      args <- c("n", "seed", params, txt_inputs)
+    } else if (POST$disttype %in% c("d", "p")) {
+      args <- c("from", "to", "n", params, txt_inputs)
+    }
+    if (!setequal(nms, args)) {
+      stop(paste("Invalid form inputs:", setdiff(nms, args)))
     }
   }
 
-  ## check distribution parameters
-  ## beta
-  check_beta <- function() {
-    with(POST,
-         if (!all(c(a, b) > 0)) {
-           stop("shape parameters must be real positive numbers")
-         }
-         if (POST$distname
-         )
+  ## perform the argument check
+  check_inputs(POST$distname)
+
+  ## check empty arguments
+  fld_empty_check <- sapply(POST, is.null)
+  if (any(fld_empty_check)) {
+    errmsg <- c(errmsg, paste("Submitted empty fields: ", fld_empty_check[
+    stop("Submitted empty fields")
   }
-  ## binomial
-  check_binom <- function() {
-    with(POST,
-         if (!(is.integer(size) & size >= 0)) {
-           stop("invalid number of trials")
-         }
-         if (0 <= p & p <= 1) {
-           stop("invalid p")
-         })
+
+  
+
+  ## convert to numeric
+  POST[num_inputs] <- lapply(POST[num_inputs], num_check)
+  
+  ## check sample size
+  if (n <= 0 | n > 1e5) {
+    stop("Sample size error")
   }
-  ## cauchy
-  check_cauchy <- function() {
-    with(POST,
-         if (!scale > 0) {
-           stop("Scale not positive real")
-         })
-  }
-  ## chi-square
-  check_chisq <- function() {
-    with(POST,
-         if (!df > 0) {
-           stop("degrees of freedom not positive")
-         })
-  }
-  ## exponential
-  check_exp <- function() {
-    with(POST,
-         if (!all(c(df1, df2) > 0)
-         
+  
+  ## real number check
+  ## matches location, mean, meanlog, a_cont, b_cont
+  r_num <- "^(location|mean(log)?|[ab]{1}_cont)$"
+
+  ## check if these inputs are real
+  ## real numbers are already checked (convert to numeric)
+  if (!is.numeric(POST[grep(r_num, POST$distname, value = TRUE)]))
+    stop("
+      
+  ## real positive
+  r_pos <- "^(shape[12]?|scale|sdlog|df|rate|x|var|lambda)$"
+  ## check for positive reals
+  
+
+  
+  ## check form arguments
+  check_inputs(distpars[POST$distname])
+
+  
+  
+
          
   
          
@@ -326,8 +318,5 @@ tryCatch(univar_plot(), error = err)
 setTimeLimit()
 
 
-## write code in chunks - several functions, one that will call them all, if necessary!
-## - one that will check for code insertion, use POST as fn argument
-## - afterwards, everything is just a routine...
 ## beautify plots
 ## - mathematical notation on x & y axis
