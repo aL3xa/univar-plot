@@ -101,17 +101,19 @@ POST[num_inputs] <- lapply(POST[num_inputs], num_check)
 ## check sample size
 if (n <= 0 | n > 1e5) {
   err_status <- TRUE
-  err_list$main <- c(err_list$main, "Sample size error")
+  err_list$dist_params<- c(err_list$dist_params, "Sample size error")
 }
 
 ## check seed #
-
-  
-
+if (!grepl(re_num, POST$seed)) {
+  err_status <- TRUE
+  err_list$dist_params<- c(err_list$dist_params, paste("Invalid seed number: ", POST$seed))
+}
 
 ## from-to check!
 ## from > to
 ## distribution-specific
+
 
 ## real number check
 ## matches location, mean, meanlog, a_cont, b_cont
