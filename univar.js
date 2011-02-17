@@ -222,7 +222,7 @@ function genRandomSeed(){
 // parameter generator function
 function genParams(obj, t){
     var par = ""; 		// parameters
-    var n;		// sample size
+    var n;			// sample size
 
     // set sample size
     switch(obj.short){
@@ -260,18 +260,18 @@ function genParams(obj, t){
     // add random seed/x-axis limits
     // if random variable requested
     if (t === "r"){
-	par += '<p class = "ppar" id = "pseed"><label for = "seed">Seed:</label>';
+	par += '<div class = "ppar" id = "pseed"><label for = "seed">Seed:</label>';
 	par += '<input type = "text" size = "5" id = "seed" name = "seed" value = "0" title = "Random seed" />';
-	par += '<input type = "button" id = "rnd" value = "#" title = "Generate random seed number" onclick = "genRandomSeed();" /></p>';
+	par += '<span id = "rnd" title = "Generate random seed number" onclick = "genRandomSeed();">#</span></div>';
 
     // if density or cumulative distribution requested
     } else if (t === "dp") {
 	// if continuous distribution (beta has hardcoded params)
 	if (obj.type === "continuous" && obj.short !== "beta"){
-    	    par += '<p class = "ppar"><label for = "from">x<sub>min</sub>:</label>';
-    	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></p>';
-    	    par += '<p class = "ppar"><label for = "to">x<sub>max</sub>:</label>';
-    	    par += '<input type = "text" size = "5" id = "to" name = "to" value = "' + obj.xlim[1] + '" title = "Xmax" /></p>';
+    	    par += '<div class = "ppar"><label for = "from">x<sub>min</sub>:</label>';
+    	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></div>';
+    	    par += '<div class = "ppar"><label for = "to">x<sub>max</sub>:</label>';
+    	    par += '<input type = "text" size = "5" id = "to" name = "to" value = "' + obj.xlim[1] + '" title = "Xmax" /></div>';
 	} // end if continuous
     } else {
 	return false;		// a little measure of precaution
@@ -279,13 +279,13 @@ function genParams(obj, t){
 
     // add sample size
     title = obj.type === "continuous" ? "Sample size" : "# of trials";
-    par += '<p class = "ppar"><label for = "n">N:</label>';
-    par += '<input type = "text" size = "5" id = "n" name = "n" value = "' + n + '" title = "' + title + '" /></p>';
+    par += '<div class = "ppar"><label for = "n">N:</label>';
+    par += '<input type = "text" size = "5" id = "n" name = "n" value = "' + n + '" title = "' + title + '" /></div>';
 
     // add distribution parameters
     for (i = 0; i < obj.params.length; i++){
-	par += '<p class = "ppar"><label for = "' + obj.params[i] + '" class = "lbl">' + obj.labels[i] + ':</label>';
-	par += '<input type = "text" size = "5" id = "' + obj.params[i] + '" name = "' + obj.params[i] + '" value = "' + obj.values[i] + '" title = "' + obj.titles[i] + '" /></p>';
+	par += '<div class = "ppar"><label for = "' + obj.params[i] + '" class = "lbl">' + obj.labels[i] + ':</label>';
+	par += '<input type = "text" size = "5" id = "' + obj.params[i] + '" name = "' + obj.params[i] + '" value = "' + obj.values[i] + '" title = "' + obj.titles[i] + '" /></div>';
     } // end for
 
     return par;
@@ -329,19 +329,21 @@ function resetLayout(msg, callback){
 $(document).ready(function(){
     
     var obj;			// define dist data
+    var $distname = $("#distname");
+    var $distpar = $("#distpar");
 
     resetLayout();		// guess what?
 
     // load <option> items
     $.each(dists, function(i, data){
-	$("#distname").append($("<option></option>").attr({"value":data.short}).text(data.name)); // populate select element
+	$distname.append('<option value = "' + data.short  + '">' + data.name +'</option>'); // populate select element
 	$("#distname option[value = '" + data.short + "']").data("distdata", data);
     }); // end each
 
     $("#distplot").show();	// show page contents
 
     // on change distribution
-    $("#distname").change(function(){
+    $distname.change(function(){
 
 	var $el = $(this);	// create shorthand
 
@@ -351,13 +353,13 @@ $(document).ready(function(){
 	    obj = $("#distname option[value='" + $(this).val() + "']").data("distdata"); // set distdata data to global variable
 	    $("#wikiurl").attr({"href":obj.wikiurl, "title":"See Wikipedia page about the " + obj.name + " distribution"}); // set href for Wikipedia link
 	    $("#rman").attr({"href":obj.rman, "title":"See R documentation about the " + obj.name + " distribution"}); // set href for R manal page
-	    $(".manlink").show(); // show Wikipedia & R manual links
+	    $("#wikiurl, #rman").show(); // show Wikipedia & R manual links
 	    $(this).data("distval", $(this).val()); // remember distribution name
 	    // check distribution type
 	    if ($("#disttype").val() === "r"){
-		$("#distpar").html(genParams(obj, "r")); // generate random params
+		$distpar.html(genParams(obj, "r")); // generate random params
 	    } else if ($("#disttype").val() === "d" || $("#disttype").val() === "p") {
-		$("#distpar").html(genParams(obj, "dp")); // generate d/p params
+		$distpar.html(genParams(obj, "dp")); // generate d/p params
 	    } else {
 		// do nothing
 	    } // end if
@@ -370,12 +372,12 @@ $(document).ready(function(){
     // change distribution type
     $("#disttypebtns span").click(function(){
 
-    	if ($("#distname").val() === "") { // if distribution not specified
+    	if ($distname.val() === "") { // if distribution not specified
 
-    	    $("#distpar").html(""); // remove distribution params
+    	    $distpar.html(""); // remove distribution params
     	    alert("Choose a distribution first!"); // show warning
 
-    	} else if ($("#distname").val() !== ""){
+    	} else if ($distname.val() !== ""){
 
 	    var distTypeVal = $("#disttype").val(); // distribution type value
 
@@ -391,9 +393,9 @@ $(document).ready(function(){
 	    
 	    case 0:
 		if (distTypeVal === "r") {
-		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "r")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "r")) : false; // reset distpar
 		} else {
-		    $("#distpar").html(genParams(obj, "r")); // generate random distribution params
+		    $distpar.html(genParams(obj, "r")); // generate random distribution params
 		    $("#other").show();			     // show other plots
 		} // end if
 		break;
@@ -401,18 +403,18 @@ $(document).ready(function(){
 	    // density/cumulative disttype
 	    case 1:
 		if (distTypeVal === "d") {
-		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "dp")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "dp")) : false; // reset distpar
 		} else {
-		    $("#distpar").html(genParams(obj, "dp")); // generate density distribution params
+		    $distpar.html(genParams(obj, "dp")); // generate density distribution params
 		    $("#other").hide();		 // hide other plots
 		} // end if
 		break;
 
 	    case 2:
 		if (distTypeVal === "p") {
-		    confirm("Reset distribution parameters?") ? $("#distpar").html(genParams(obj, "dp")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "dp")) : false; // reset distpar
 		} else {
-		    $("#distpar").html(genParams(obj, "dp")); // generate density distribution params
+		    $distpar.html(genParams(obj, "dp")); // generate density distribution params
 		    $("#other").hide();		 // hide other plots
 		} // end if
 		break;

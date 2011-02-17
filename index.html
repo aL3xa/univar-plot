@@ -21,20 +21,22 @@
 	</div>
       </noscript>
       <div id="distplot">
-	<div id="parpanel">
+	<div id="westpanel">
 	  <form action="#" method="post">
-	    <div id = "headpar">
-	      <p name="main" class="partitle" title="Click to collapse field">Main options</p>
-	      <div id="headpar-content">
-		<p id="distnames" class="ppar">
+	    <div id="headpar">
+	      <div id="headpar-title" class="par-title">
+		<span title="Click to collapse field">Main options</span>
+	      </div>
+	      <div id="headpar-content" class="par-content">
+		<div id="distnames" class="ppar">
 		  <label for="distname">Distribution:</label>
 		  <select id="distname" name="distname">
 		    <option value="" selected="selected">-- choose --</option>
 		  </select>
-		  <a id="wikiurl" class="manlink" target="_blank">W</a>
-		  <a id="rman" class="manlink" target="_blank">R</a>
-		</p>
-		<p id="disttypes" class="ppar">
+		  <a id="wikiurl" target="_blank">W</a>
+		  <a id="rman" target="_blank">R</a>
+		</div>
+		<div id="disttypes" class="ppar">
 		  <label for="disttypebtns">Type:</label>
 		  <div id="disttypebtns">
 		    <span class="disttypebtn" id="random" title = "Generate (pseudo)random variable">X</span>
@@ -42,20 +44,24 @@
 		    <span class="disttypebtn" id="cdf" title = "Generate cumulative distribution function">F(X)</span>
 		    <input type="hidden" id="disttype" name="disttype" value="" />
 		  </div>
-		</p>
+		</div>
 	      </div>
 	    </div>
 	    <div id="bodypar">
-	      <p class="partitle" title="Click to collapse field">Distribution parameters</p>
-	      <div id="bodypar-content">
+	      <div id="bodypar-title" class="par-title">
+		<span title="Click to collapse field">Distribution parameters</span>
+	      </div>
+	      <div id="bodypar-content" class="par-content">
 		<div id="distpar">
 		  <!-- plot parameters go here -->
 		</div>
 	      </div>
 	    </div>
 	    <div id="footpar">
-	      <p class="partitle" title="Click to collapse field">Plot type</p>
-	      <div id="partitle-content">
+	      <div id="footpar-title" class="par-title" class="par-content">
+		<span title="Click to collapse field">Plot type</span>
+	      </div>
+	      <div id="partitle-content" class="par-content">
 		<div id="plottypes" class="ptype">
 		  <div id="simple">
 		    <img src="artwork/png/point.png" class="plot-icon" alt="point" title="point" />
@@ -74,15 +80,18 @@
 		  <input type="hidden" id="plottype" name="plottype" value="" />
 		</div>
 		<div id = "plotnav">
-		  <input type="button" id="plotrst" title="Click to reset form!" value="Reset" />
-		  <input type="button" id="plotbtn" title="Click to plot graph!" value="Plot" />
+		  <span type="button" id="plotrst" title="Click to reset form!">Reset</span>
+		  <span type="button" id="plotbtn" title="Click to plot graph!">Plot</span>
 		</div>
 	      </div>
 	    </div>
 	  </form>
 	</div>
 	<div id="plot-panel">
-	  <div id="plot-contents">
+	  <div id="plot-panel-title" class="par-title">
+	    <span>Plot panel</span>
+	  </div>
+	  <div id="plot-content" class="par-content">
 	    <div id="plot-inner">
 	      <p id="plot-text">Your plot<br />goes here...</p>
 	    </div>
