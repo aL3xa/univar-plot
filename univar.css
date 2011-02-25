@@ -83,7 +83,7 @@ body{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     color: white;
-    cursor: pointer;
+    cursor: default;
     font-size: 1.1em;
     font-weight: bold;
     margin: 0;
@@ -124,12 +124,6 @@ body{
 
 #rnd:active{
     background: none repeat scroll 0 0 #3EAFDC;
-}
-
-#headpar label{
-    float:left;
-    margin-right:10px;
-    width:6em;
 }
 
 .ppar{
@@ -223,12 +217,8 @@ body{
     padding:10px 0px 0px 0px;
 }
 
-#footpar label{
-    padding-left:15px;
-}
-
-.ptype{
-    padding: 0 0 0 15px;
+#plottypes{
+    margin: 5px 0 -5px 22px;
 }
 
 #plotmsg{
@@ -265,7 +255,7 @@ body{
 }
 
 #plotnav{
-    margin: 20px 0 0 0;
+    margin: 20px 15px 0 0;
     text-align:right;
 }
 
@@ -304,10 +294,20 @@ body{
     font-weight:bold;
 }
 
-#bodypar label{
-    float:left;
-    margin-right:10px;
-    width:3em;
+label{
+    float: left;
+    margin-right: 10px;
+    width: 100px;
+}
+
+/* #distpar label{ */
+/*     cursor: pointer; */
+/* } */
+
+#plotnav span{
+    width:50px;
+    font-style:normal;
+    font-family:sans;
 }
 
 #rsource{

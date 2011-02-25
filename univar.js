@@ -260,17 +260,17 @@ function genParams(obj, t){
     // add random seed/x-axis limits
     // if random variable requested
     if (t === "r"){
-	par += '<div class = "ppar" id = "pseed"><label for = "seed">Seed:</label>';
-	par += '<input type = "text" size = "5" id = "seed" name = "seed" value = "0" title = "Random seed" />';
+	par += '<div class = "ppar" id = "pseed"><label for = "seed" title = "Random seed number">Seed</label>';
+	par += '<input type = "text" size = "5" id = "seed" name = "seed" value = "0" title = "Random seed number" />';
 	par += '<span id = "rnd" title = "Generate random seed number" onclick = "genRandomSeed();">#</span></div>';
 
     // if density or cumulative distribution requested
     } else if (t === "dp") {
 	// if continuous distribution (beta has hardcoded params)
 	if (obj.type === "continuous" && obj.short !== "beta"){
-    	    par += '<div class = "ppar"><label for = "from">x<sub>min</sub>:</label>';
+    	    par += '<div class = "ppar"><label for = "from">x<sub>min</sub></label>';
     	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></div>';
-    	    par += '<div class = "ppar"><label for = "to">x<sub>max</sub>:</label>';
+    	    par += '<div class = "ppar"><label for = "to">x<sub>max</sub></label>';
     	    par += '<input type = "text" size = "5" id = "to" name = "to" value = "' + obj.xlim[1] + '" title = "Xmax" /></div>';
 	} // end if continuous
     } else {
@@ -279,12 +279,12 @@ function genParams(obj, t){
 
     // add sample size
     title = obj.type === "continuous" ? "Sample size" : "# of trials";
-    par += '<div class = "ppar"><label for = "n">N:</label>';
+    par += '<div class = "ppar"><label for = "n" title = "' + title + '">N</label>';
     par += '<input type = "text" size = "5" id = "n" name = "n" value = "' + n + '" title = "' + title + '" /></div>';
 
     // add distribution parameters
     for (i = 0; i < obj.params.length; i++){
-	par += '<div class = "ppar"><label for = "' + obj.params[i] + '" class = "lbl">' + obj.labels[i] + ':</label>';
+	par += '<div class = "ppar"><label for = "' + obj.params[i] + '" title = "' + obj.titles[i] + '">' + obj.labels[i] + '</label>';
 	par += '<input type = "text" size = "5" id = "' + obj.params[i] + '" name = "' + obj.params[i] + '" value = "' + obj.values[i] + '" title = "' + obj.titles[i] + '" /></div>';
     } // end for
 
@@ -301,7 +301,7 @@ function resetLayout(msg, callback){
 	$(".partitle, .disttypebtn, #footpar img").css("opacity", 1);
 	$(".partitle ~ div").show();
 	$("#distname, #disttype, #plottype").val(""); // reset values
-	$(".disttypebtn").removeClass("disttypesel"); // remove highlight from buttons
+	$("#disttypebtns span").removeClass("disttypesel"); // remove highlight from buttons
 	$("#footpar img").removeClass("plot-icon-sel");  // remove highlight border
 	$("#distpar").html("");			      // empty distribution parameters
 	$("#plot-inner").html('<p id = "plot-text">Your plot<br />goes here...</p>'); // reset plot text
@@ -328,9 +328,10 @@ function resetLayout(msg, callback){
 
 $(document).ready(function(){
     
-    var obj;			// define dist data
-    var $distname = $("#distname");
-    var $distpar = $("#distpar");
+    var obj,
+    $distname = $("#distname"),
+    $distpar = $("#distpar"),
+    $plotIcons = $("#footpar img");
 
     resetLayout();		// guess what?
 
@@ -384,7 +385,7 @@ $(document).ready(function(){
 	    // deal with timeout in fadeTo
 
     	    $("#bodypar, #footpar").show(); // show stuff
-	    $(".disttypebtn").removeClass("disttypesel").fadeTo(0, 0.5); // remove highlight from disttype buttons
+	    $("#disttypebtns span").removeClass("disttypesel").fadeTo(0, 0.5); // remove highlight from disttype buttons
 	    $(this).addClass("disttypesel").fadeTo(0, 1.0);		// highlight selected button
 	    $("#footpar img").removeClass("plot-icon-sel").fadeTo(0, 1); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
@@ -442,17 +443,9 @@ $(document).ready(function(){
     var plotVals = ["p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf"]; // plottype values
     $("#footpar img").click(function(){
 	var pVal = plotVals[$(this).index("#footpar img")]; // set plottype value
-	$("#footpar img:not(this)").removeClass("plot-icon-sel").fadeTo(50, 0.4); // remove highlight
-	$(this).addClass("plot-icon-sel").fadeTo(50, 1); // add selection border
+	$("#footpar img:not(this)").removeClass("plot-icon-sel").fadeTo(0, 0.4); // remove highlight
+	$(this).addClass("plot-icon-sel").fadeTo(0, 1); // add selection border
 	$("#plottype").val(pVal); // add plottype value to hidden input
-    });
-
-    // make blocks collapsible
-    $(".partitle").click(function(){
-	$el = $(this);
-	$el.next().slideToggle("fast", function(){
-	    $el.css("opacity") == 0.4 ? $el.css({"opacity":"1.0"}).attr({"title":"Click to collapse field"}) : $el.css({"opacity":"0.4"}).attr({"title":"Click to expand field"});
-	});
     });
 
     // update plot div

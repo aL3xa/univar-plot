@@ -23,13 +23,13 @@
       <div id="distplot">
 	<div id="westpanel">
 	  <form action="#" method="post">
-	    <div id="headpar">
+	    <div id="headpar" class="par-window">
 	      <div id="headpar-title" class="par-title">
 		<span title="Click to collapse field">Main options</span>
 	      </div>
 	      <div id="headpar-content" class="par-content">
 		<div id="distnames" class="ppar">
-		  <label for="distname">Distribution:</label>
+		  <label for="distname">Distribution</label>
 		  <select id="distname" name="distname">
 		    <option value="" selected="selected">-- choose --</option>
 		  </select>
@@ -37,7 +37,7 @@
 		  <a id="rman" target="_blank">R</a>
 		</div>
 		<div id="disttypes" class="ppar">
-		  <label for="disttypebtns">Type:</label>
+		  <label for="disttypebtns">Type</label>
 		  <div id="disttypebtns">
 		    <span class="disttypebtn" id="random" title = "Generate (pseudo)random variable">X</span>
 		    <span class="disttypebtn" id="pdf" title = "Generate probability mass/density function">f(X)</span>
@@ -47,7 +47,7 @@
 		</div>
 	      </div>
 	    </div>
-	    <div id="bodypar">
+	    <div id="bodypar" class="par-window">
 	      <div id="bodypar-title" class="par-title">
 		<span title="Click to collapse field">Distribution parameters</span>
 	      </div>
@@ -57,7 +57,7 @@
 		</div>
 	      </div>
 	    </div>
-	    <div id="footpar">
+	    <div id="footpar" class="par-window">
 	      <div id="footpar-title" class="par-title" class="par-content">
 		<span title="Click to collapse field">Plot type</span>
 	      </div>
@@ -80,14 +80,14 @@
 		  <input type="hidden" id="plottype" name="plottype" value="" />
 		</div>
 		<div id = "plotnav">
-		  <span type="button" id="plotrst" title="Click to reset form!">Reset</span>
-		  <span type="button" id="plotbtn" title="Click to plot graph!">Plot</span>
+		  <span type="button" id="plotrst" class = "disttypebtn" title="Click to reset form!">Reset</span>
+		  <span type="button" id="plotbtn" class = "disttypebtn" title="Click to plot graph!">Plot</span>
 		</div>
 	      </div>
 	    </div>
 	  </form>
 	</div>
-	<div id="plot-panel">
+	<div id="plot-panel" class="par-window">
 	  <div id="plot-panel-title" class="par-title">
 	    <span>Plot panel</span>
 	  </div>
