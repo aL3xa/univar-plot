@@ -1,0 +1,8 @@
+<FilesMatch "\.rhtml$">
+    SetHandler r-script
+    RHandler base::sys.source
+</FilesMatch>
+
+REvalOnStartup "library(RJSONIO)"
+
+ROutputErrors
