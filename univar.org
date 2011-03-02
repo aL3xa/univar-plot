@@ -1,0 +1,36 @@
+* TODO univar-plot				      :R:JavaScript:HTML:CSS:
+  RApache-powered web application for plotting univariate theoretical distributions
+
+
+** TODO design
+*** TODO put user-select:none everywhere except text inputs 
+*** TODO todo replace select input with drop-down div
+*** TODO set vertical centering for plot panel
+*** TODO change icons for: slash-dotted, boxplot (horizontal) density and ECDF plots
+*** TODO PLOT and RESET buttons: decide where to place them
+*** TODO add about bar with references (bibtex etc.)
+*** TODO font consistency in webapp (page = plot)
+    
+** TODO features
+*** TODO set default plot type
+*** TODO show warning if inappropriate plot type was selected
+*** TODO switch between simple/exact R source
+
+** TODO JavaScript
+*** TODO cache jQuery objects
+*** TODO write custom form validation function (with popups)
+*** TODO use .children() method to access the children DOM elements
+*** TODO use $.ajaxStart and $.ajaxStop
+
+** TODO R script
+*** TODO add box() to hist() within switch() throuh anonymous funciton
+*** TODO mathematical annotation in plots
+*** TODO embed distribution parameters in plot
+*** TODO change plot fonts
+*** TODO form validation
+**** n for (pseudo)random distribution
+**** TODO x limits for PDF/CDF
+**** 
+
+** Apache
+*** set <Location> instead <Directory> directive
