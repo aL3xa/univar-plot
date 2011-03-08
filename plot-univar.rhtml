@@ -1,10 +1,11 @@
 ## set RApache errors in HTML comment
-RApacheOutputErrors(TRUE, "<!--\n", "-->\n") # development purposes only, don't show errors!
+RApacheOutputErrors(TRUE) # for development purposes only, don't show errors afterwards!
 ## RApacheOutputErrors(FALSE)
 
 
 ### FORM VALIDATION ###
 
+validate_form <- function(POST) {
 
 ## define variables & functions
 
@@ -19,36 +20,15 @@ re_int <- "^-?[0-9]+$"                   # integer regexp
 
 dists <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif_c", "weibull") # distribution names
 
+dists_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
+dists_c <- setdiff(dists, dists_d)      # continuous distributions
 
-dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
-dist_c <- setdiff(dists, discrete)                                # continuous distributions
+plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "hist", "density", "ecdf") # plot types
 
-plots <- c("p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf") # plot types
+## DISTRIBUTION PARAMETERS ##
 
-err_status <- FALSE                     # error status - so far, so good
-err_list<- list()                       # error messages
-## main, param, plot
-
-## check distribution names
-if (!POST$distname %in% dists) {
-  err_status <- TRUE
-  err_list$main <- c(err_list$main, paste("Unknown distribution:", POST$distname))
-}
-
-## check distribution types
-if (!POST$disttype %in% c("r", "d", "p")) {
-  err_status <- TRUE
-  err_list$main <- c(err_list$main, "Unknown distribution type")
-}
-
-## check plot type
-if (!POST$plottype %in% plots) {
-  err_status <- TRUE
-  err_list$plot <- c(err_list$plot, "Unknown plot type")
-}
-
-## distribution parameters
-distpars <- list(
+## input names
+distpar <- list(
                  beta = c("shape1", "shape2"),
                  binom = c("size", "prob"),
                  cauchy = c("location", "scale"),
@@ -69,84 +49,121 @@ distpars <- list(
                  weibull = c("shape", "scale")
                  )
 
-## unique parameters
-unqpars <- unique(unlist(distpars))     # wtf is this for???
+params <- distpar[[POST$distname]]        # get distribution parameters
 
-## check distribution specific inputs
-if (POST$disttype == "r") {             # (pseudo)random distribution
-  args <- c("n", "seed", params, txt_inputs)
-} else {                             # density/cumulative distribution
-  args <- c("from", "to", "n", params, txt_inputs)
-}
-if (!setequal(nms, args)) {
-  err_status <- TRUE
-  err_list$main <- c(err_list$main, paste("Invalid form inputs:", setdiff(nms, args)))
-}
+## start checking
 
 ## check empty inputs
-fld_empty <- sapply(POST, is.null)
-if (any(fld_empty)) {
-  err_status <- TRUE
-  err_list$main <- c(err_list$main, paste("Submitted empty fields:", fld_empty[check_empty])) # use field labels
+if (any(sapply(POST, is.null))) {
+  stop("Submitted empty fields")
+}
+
+## check distribution names
+if (!POST$distname %in% dists) {
+  stop("Unknown distribution")
+}
+
+## check distribution types
+if (!POST$disttype %in% c("r", "d", "p")) {
+  stop("Unknown distribution type")
+}
+
+## check plot type
+if (!POST$plottype %in% plots) {
+  stop("Unknown plot type")
+}
+
+## DISTRIBUTION PARAMETERS ##
+
+## check if POST inputs match
+if (POST$disttype == "r") {
+  args <- c("n", "seed", params, txt_inputs) # (pseudo)random distribution inputs
+} else {
+  if (POST$plottype %in% c("boxplot", "histogram", "density", "ecdf")) {
+    stop("Invalid plot type")           # throw an error in case user changes plot type upon submit
+  }
+  args <- c("from", "to", "n", params, txt_inputs) # density/cumulative distribution inputs
+}
+
+## throw error if arguments don't match
+if (!setequal(nms, args)) {
+  stop("Invalid form inputs")
 }
 
 ## check numeric
 fld_nums <- sapply(POST[num_inputs], function(x) grepl(re_num, x)) # check numeric inputs
-if (!all(nums)) {
-  err_status <- TRUE
-  err_list$params <- c(err_list$params, paste("Submitted non-numeric values:" num_inputs[!fld_nums]))
-  stop("Numeric conversion failed!")    # halt further execution
+if (!all(fld_nums)) {
+  stop("Submitted non-numeric values")  # stop further execution
 } else {
-  POST[num_inputs] <- lapply(POST[num_inputs], num_check) # convert to numeric
+  POST[num_inputs] <<- lapply(POST[num_inputs], as.numeric) # convert to numeric and make changes globally
 }
 
-## check sample size
-if (n <= 0 | n > 1e5) {
-  err_status <- TRUE
-  err_list$dist_params<- c(err_list$dist_params, "Sample size error")
-}
+## ## check sample size
+## ## non-negative integer not larger than 1e5
+## if (POST$n <= 0 | POST$n > 1e5 | grepl(re_int, POST$n)) {
+##   err_status <- TRUE
+##   err_list$pars <- c(err_list$pars, paste("Sample size error:", POST$n))
+## }
 
-if (POST$disttype == "r") {
-  ## check seed #
-  if (!grepl(re_num, POST$seed)) {
-    err_status <- TRUE
-    err_list$dist_params<- c(err_list$dist_params, paste("Invalid seed number: ", POST$seed))
-  }
-} else {
-  ## check from & to
-  if (!
+## if (POST$disttype == "r") {
+##   ## check seed number
+##   if (!grepl(re_num, POST$seed)) {
+##     err_status <- TRUE
+##     err_list$dist_pars <- c(err_list$dist_pars, paste("Invalid seed number:", POST$seed))
+##   }
+## } else {
+##   ## check from & to
+##   if (!all(with(POST, !from < to | grepl(re_num, c(from, to))))) {
+##     err_status <- TRUE
+##     err_list$dist_pars <- c(err_list$dist_pars, paste("from/to error"))
+##   }
+## }
 
 ## from-to check!
 ## from > to
 ## distribution-specific
 
 
-## real number check
-## matches location, mean, meanlog, a_cont, b_cont
-r_num <- "^(location|mean(log)?|[ab]{1}_cont)$"
+## ## real number check
+## ## matches location, mean, meanlog, a_cont, b_cont
+## r_num <- "^(location|mean(log)?|[ab]{1}_cont)$"
 
-## check if these inputs are real
-## real numbers are already checked (convert to numeric)
-if (!is.numeric(POST[grep(r_num, POST$distname, value = TRUE)])) {
-  ## WTF???
+## ## check if these inputs are real
+## ## real numbers are already checked (convert to numeric)
+## if (!is.numeric(POST[grep(r_num, POST$distname, value = TRUE)])) {
+##   ## WTF???
+## }
+
+## ## real positive
+## r_pos <- "^(shape[12]?|scale|sdlog|df|rate|x|var|lambda)$"
+## ## check for positive reals
+
+
+## work this out!!!
+pars <- POST[c("n", params)]                    # parameters
+dist_fn <- with(POST, paste(plottype, "@", disttype, distname, sep = "")) # distribution function (in R)
+minor_params <- with(POST,
+                     ifelse(
+                            disttype == "r",
+                            paste("#", seed, names(pars), pars, sep = ""), # (pseudo)random distribution
+                            paste("from", from, "to", to, names(pars), pars, sep = "") # PDF/CDF
+                            )
+                     )
+plot_name <- paste(dist_fn, "_", minor_params, ".png", sep = "")
+plot_dir <- "/srv/http/univar/img"   # file wd
+
+file.path(plot_dir, plot_name)
+
 }
 
-## real positive
-r_pos <- "^(shape[12]?|scale|sdlog|df|rate|x|var|lambda)$"
-## check for positive reals
+univar_plot <- function() {
 
-
-
-
-## load packages: stats, graphs, RJSONIO - REvalOnStartup
+  ## custom functions
+  unif_d <- function(
   
-  ## set file path - DO NOT UNLIST - malicious!!! someone can pass more inputs
-  ## this is gonna be lengthy one, don't repeat switch!!! write a function!
-  plot_name <- paste(paste(unlist(POST), collapse = "_"), ".png", sep = "") # set filename
-  plot_dir <- "/srv/http/univar/img"   # file wd
   
   ## plot or not
-  if (!plot_name %in% dir(plot_dir)) {
+  if (file.exists(plot_name)) {
     
     ## if random
     with(POST,
@@ -268,8 +285,7 @@ r_pos <- "^(shape[12]?|scale|sdlog|df|rate|x|var|lambda)$"
                   )
          } else {
            stop("Plot error!");
-         } # end if
-         ) # end with
+         }) # end if/with
     
     dev.off()
     
@@ -277,6 +293,8 @@ r_pos <- "^(shape[12]?|scale|sdlog|df|rate|x|var|lambda)$"
   
   cat('<img src = "img/', plot_name, '" alt = "rplot" />', sep = "")
   ## toJSON(list(plot = plot_name, err_msg = NULL))
+
+}
   
 
  # end univar plot

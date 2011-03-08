@@ -1,36 +1,70 @@
-* TODO univar-plot				      :R:JavaScript:HTML:CSS:
+* TODO univar-plot				      :R:javascript:HTML:CSS:
   RApache-powered web application for plotting univariate theoretical distributions
 
 
-** TODO design
-*** TODO put user-select:none everywhere except text inputs 
+** TODO design							   :HTML:CSS:
 *** TODO todo replace select input with drop-down div
-*** TODO set vertical centering for plot panel
+    set click event on dropdown div
+    create distname hidden input
+    set change event on distname
 *** TODO change icons for: slash-dotted, boxplot (horizontal) density and ECDF plots
 *** TODO PLOT and RESET buttons: decide where to place them
 *** TODO add about bar with references (bibtex etc.)
 *** TODO font consistency in webapp (page = plot)
+*** TODO set plot as div background
+    provide button to save graph
+
     
 ** TODO features
-*** TODO set default plot type
+*** TODO set default plot type for every distribution
 *** TODO show warning if inappropriate plot type was selected
 *** TODO switch between simple/exact R source
+*** TODO history - plot graph in history list
+    show distribution parameters with plot type, click to show source or replot (regenerate plot)
+    if user clicks "replot", re-set plot parameters (form values)
 
-** TODO JavaScript
+
+** TODO CSS								:CSS:
+*** TODO remove redundant/missing entries
+*** TODO put user-select:none everywhere except text inputs 
+*** TODO set vertical centering for plot panel
+
+
+** TODO JavaScript						 :javascript:
 *** TODO cache jQuery objects
+    use $object = $("#object"); with .children() method
+*** TODO change name of #n (n for r***, x for d***, q for p*** functions)
 *** TODO write custom form validation function (with popups)
-*** TODO use .children() method to access the children DOM elements
 *** TODO use $.ajaxStart and $.ajaxStop
+    put a spinner!
+*** TODO source/history generation function
+    embedd R source (with links?) + image preview (click to enlarge)
+    when user clicks and image (or replicate button, change form values/attributes)
+*** TODO when distname changes to "", don't reset form, throw an error
 
-** TODO R script
+
+** TODO R script							  :R:
+
+*** TODO check if input names match distribution function arguments
+    normal, hypergeometric, uniform (discrete) distributions - write custom functions
+*** TODO use file.exists instead dir() matching
+*** TODO get n + params from POST, use it with do.call
 *** TODO add box() to hist() within switch() throuh anonymous funciton
+    add plot as default option, change type only type = "<get from POST>"
+    after validation, default expression in switch cannot contain erroneous inputs
 *** TODO mathematical annotation in plots
 *** TODO embed distribution parameters in plot
 *** TODO change plot fonts
 *** TODO form validation
-**** n for (pseudo)random distribution
+**** TODO check POST arguments
+     POST arguments must match with ditribution parameters
+**** check empty inputs
+     POST arguments must be non-NULL
+**** TODO n for (pseudo)random distribution
 **** TODO x limits for PDF/CDF
-**** 
+**** TODO write argument check functions
+*** TODO plot name function
+
 
 ** Apache
-*** set <Location> instead <Directory> directive
+*** set Location instead Directory directive (is this stupid?)

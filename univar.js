@@ -63,7 +63,7 @@ var dists =
 	 "params": ["df1", "df2"],
 	 "values": ["1", "1"],
 	 "labels": ["df<sub>1</sub>", "df<sub>2</sub>"],
-	 "titles": ["Degrees of freedom", "Degrees of freedom"],
+	 "titles": ["Numerator degrees of freedom", "Denominator degrees of freedom"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/F-distribution",
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html"
      }, {
@@ -126,7 +126,7 @@ var dists =
 	 "short":"nbinom",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
-	 "params": ["x", "p"],
+	 "params": ["size", "prob"],
 	 "values": ["1", "0.5"],
 	 "labels": ["x", "p"],
 	 "titles": ["# of successes", "Probability of success"],
@@ -136,7 +136,7 @@ var dists =
 	 "name":"normal (Gaussian)",
 	 "short":"norm",
 	 "type":"continuous",
-	 "xlim": ["-5", "5"],
+	 "xlim": ["-4", "4"],
 	 "params": ["mean", "var"],
 	 "values": ["0", "1"],
 	 "labels": ["&mu;", "&sigma;<sup>2</sup>"],
@@ -170,7 +170,7 @@ var dists =
 	 "short":"unif_d",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
-	 "params": ["a_disc", "b_disc"],
+	 "params": ["min", "min"],
 	 "values": ["1", "5"],
 	 "labels": ["a", "b"],
 	 "titles": ["Minimum value", "Maximum value"],
@@ -181,7 +181,7 @@ var dists =
 	 "short":"unif_c",
 	 "type":"continuous",
 	 "xlim": ["0", "1"],
-	 "params": ["a_cont", "b_cont"],
+	 "params": ["min", "max"],
 	 "values": ["0", "1"],
 	 "labels": ["a", "b"],
 	 "titles": ["Minimum value", "Maximum value"],
@@ -214,7 +214,7 @@ var dists =
 
 
 // random seed generator
-function genRandomSeed(){
+function genRandomSeed() {
     document.getElementById("seed").value = Math.floor(Math.random() * 100000);
 } // end genRandomSeed
 
@@ -332,7 +332,7 @@ $(document).ready(function(){
     $distname = $("#distname"),
     $distpar = $("#distpar"),
     $plotIcons = $("#footpar img");
-
+    
     resetLayout();		// guess what?
 
     // load <option> items
@@ -440,7 +440,7 @@ $(document).ready(function(){
 
 
     // set plot type
-    var plotVals = ["p", "l", "o", "b", "h", "s", "boxplot", "histogram", "density", "ecdf"]; // plottype values
+    var plotVals = ["p", "l", "o", "b", "h", "s", "boxplot", "hist", "density", "ecdf"]; // plottype values
     $("#footpar img").click(function(){
 	var pVal = plotVals[$(this).index("#footpar img")]; // set plottype value
 	$("#footpar img:not(this)").removeClass("plot-icon-sel").fadeTo(0, 0.4); // remove highlight
