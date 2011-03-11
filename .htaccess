@@ -1,8 +1,6 @@
-<FilesMatch "\.rhtml$">
+<FilesMatch "plot-univar">
     SetHandler r-script
     RHandler base::sys.source
 </FilesMatch>
-
-REvalOnStartup "library(RJSONIO)"
 
 ROutputErrors
