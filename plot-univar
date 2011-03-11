@@ -1,0 +1,109 @@
+## throw RApache errors
+RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
+
+## form validation function
+
+formValidate <- function(POST) {
+
+  nms <- names(POST)                    # form input names
+  txt_inputs <- c("distname", "disttype", "plottype") # textual form inputs
+  num_inputs <- setdiff(nms, txt_inputs)              # numerical form inputs
+
+  re_num <- "^-?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric regexp
+
+  dist_names <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif", "weibull") # supported distributions
+  dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
+  dist_c <- setdiff(dist_names, dist_d)                             # continuous distributions
+
+  dist_types <- c("r", "d", "p")                                    # random/density/cumulative distribution
+
+  plot_types <- c("p", "l", "o", "b", "h", "s", "boxplot", "hist", "density", "ecdf") # supported plots
+
+  ## distribution parameters
+  dist_params<- list(
+                     beta = c("shape1", "shape2"),
+                     binom = c("size", "prob"),
+                     cauchy = c("location", "scale"),
+                     chisq = "df",
+                     exp = "rate",
+                     f = c("df1", "df2"),
+                     gamma = c("shape", "scale"),
+                     geom = "p",
+                     hyper = c("m", "total", "k"),
+                     logis = c("location", "scale"),
+                     lnorm = c("meanlog", "sdlog"),
+                     nbinom = c("size", "prob"),
+                     norm = c("mean", "var"),
+                     pois = "lambda",
+                     t = "df",
+                     unif = c("min", "max"),
+                     unifC = c("min", "max"),
+                     weibull = c("shape", "scale")
+                     )
+  ## NOTE ##
+  ## write custom helpers or change pairlist arguments
+  ## norm   - change sd to var
+  ## unifC  - round unif
+  ## hyper  - remove white + black, set white + n
+
+  param_names <- dist_params[[POST$distname]] # get distribution parameters' names
+  
+  ## check empty inputs
+  if (any(sapply(POST, is.null))) {
+    stop("Submitted empty inputs!")
+  }
+
+  ## check distribution names
+  if (!POST$distname %in% dist_names) {
+    stop("Unknown distribution!")
+  }
+
+  ## check distribution types
+  if (!POST$disttype %in% dist_types) {
+    stop("Unknown distribution type!")
+  }
+
+  ## check plot type
+  if (!POST$plottype %in% plot_types) {
+    stop("Unknown plot type!")
+  }
+
+  ## check POST inputs - 
+  if (POST$disttype == "r") {
+    args <- c("n", "seed", param_names, txt_inputs) # (pseudo)random distribution inputs
+  } else {
+    ## check for user-defined plot type =)
+    if (POST$plottype %in% c("boxplot", "hist", "density", "ecdf")) {
+      stop("Invalid plot type!")
+    }
+    args <- c("from", "to", "n", param_names, txt_inputs) # density/cumulative distribution inputs
+  }
+  ## check for a perfect match
+  if (!setequal(nms, args)) {
+    stop("Unknown form inputs!")
+  }
+
+  ## check numeric
+  if (all(sapply(POST[num_inputs], grepl, pattern = re_num))) {
+    POST[num_inputs] <- lapply(POST[num_inputs], as.numeric) # convert to numeric
+  } else {
+    stop("Submitted non-numeric values!")
+  }
+
+  ## convert `n`'s name for d/p compatibility
+  n_par <- switch(POST$disttype, d = "x", p = "q", "n")
+  names(POST)[which(nms == "n")] <- n_par
+
+  arg_list <- POST[c(n_par, param_names)]
+  
+}
+  
+  
+genUnivarPlot <- function() {
+  ## take a list of arguments + plot?
+}
+
+## genUnivarPlot(formValidate(POST))
+
+
+## genUnivarPlot should be executed inside formValidate

@@ -38,7 +38,7 @@ var dists =
 	 "short":"chisq",
 	 "type":"continuous",
 	 "xlim": ["0", "8"],
-	 "params": ["dfchisq"],
+	 "params": ["df"],
 	 "values": ["1"],
 	 "labels": ["df"],
 	 "titles": ["Degrees of freedom"],
@@ -170,7 +170,7 @@ var dists =
 	 "short":"unif_d",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
-	 "params": ["min", "min"],
+	 "params": ["min", "max"],
 	 "values": ["1", "5"],
 	 "labels": ["a", "b"],
 	 "titles": ["Minimum value", "Maximum value"],
@@ -452,7 +452,7 @@ $(document).ready(function(){
     $("#plotbtn").click(function(){
 	$("#plot-inner").html('<p id = "plot-text">Loading...</p>'); // set loading message, maybe add spinner/animated ...
 	$.ajax({
-	    url: "plot-univar.rhtml",
+	    url: "plot-univar",
 	    type: "POST",
 	    cache: false,
 	    data: $("form").serialize(),
