@@ -90,10 +90,10 @@ var dists =
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html"
      }, {
 	 "name":"hypergeometric",
-	 "short":"hyper",
+	 "short":"Hyper",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
-	 "params": ["m", "total", "k"],
+	 "params": ["white", "total", "k"],
 	 "values": ["50", "100", "20"],
 	 "labels": ["m", "n", "k"],
 	 "titles": ["# of white balls in the urn", "total # of balls in the urn", "# of balls drawn from the urn"],
@@ -134,7 +134,7 @@ var dists =
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html"
      }, {
 	 "name":"normal (Gaussian)",
-	 "short":"norm",
+	 "short":"Norm",
 	 "type":"continuous",
 	 "xlim": ["-4", "4"],
 	 "params": ["mean", "var"],
@@ -167,7 +167,7 @@ var dists =
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html"
      }, {
 	 "name":"uniform (discrete)",
-	 "short":"unif_d",
+	 "short":"UnifD",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["min", "max"],
@@ -178,7 +178,7 @@ var dists =
 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
      }, {
 	 "name":"uniform (continuous)",
-	 "short":"unif_c",
+	 "short":"unif",
 	 "type":"continuous",
 	 "xlim": ["0", "1"],
 	 "params": ["min", "max"],
@@ -456,11 +456,16 @@ $(document).ready(function(){
 	    type: "POST",
 	    cache: false,
 	    data: $("form").serialize(),
+	    dataType: "json",
 	    error: function() {
 		$("#plot-inner").html('<p id = "plot-text">Load error!</p>');
 	    },
 	    success: function(res) {
-		$("#plot-inner").html('<img src = ' + res + ' alt = "rplot" />');
+		if (res.plot.length == 0) {
+		    $("#plot-inner").html('<p id = "plot-text">An error occured: ' + res.error + '</p>');
+		} else {
+		    $("#plot-inner").html('<img src = ' + res.plot + ' alt = "rplot" />');
+		}
 	    }
 	}); // end AJAX call
     }); // end update plot div

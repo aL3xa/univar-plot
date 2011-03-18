@@ -4,8 +4,43 @@ RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
 ## set working directory
 setwd("/srv/http/univar/")
 
-## form validation function
 
+## custom distribution functions
+
+## hypergeometric distribution
+rHyper <- function(n, white, total, k) {
+  rhyper(n, white, total - white, k)
+}
+dHyper <- function(x, white, total, k) {
+  dhyper(x, white, total - white, k)
+}
+pHyper <- function(q, white, total, k) {
+  phyper(q, white, total - white, k)
+}
+
+## normal distribution
+rNorm <- function(n, mean, var) {
+  rnorm(n, mean, sqrt(var))
+}
+dNorm <- function(x, mean, var) {
+  dnorm(x, mean, sqrt(var))
+}
+pNorm <- function(q, mean, var) {
+  pnorm(q, mean, sqrt(var))
+}
+
+## discrete uniform distribution
+rUnifD <- function(n, min, max) {
+  round(runif(n, min, max))
+}
+dUnifD <- function(x, min, max) {
+  round(dunif(x, min, max))
+}
+pUnifD <- function(q, min, max) {
+  round(punif(q, min, max))
+}
+
+## form validation function  
 formValidate <- function(POST) {
 
   nms <- names(POST)                    # form input names
@@ -14,11 +49,9 @@ formValidate <- function(POST) {
 
   re_num <- "^-?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric regexp
 
-  ## change to dist_names <- dist_discrete + dist_continuous
-
-  dist_names <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif", "weibull") # supported distributions
-  dist_discrete <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
-  dist_continuous <- setdiff(dist_names, dist_discrete)                    # continuous distributions
+  dist_discrete <- c("binom", "geom", "Hyper", "nbinom", "pois", "UnifD") # discrete distributions
+  dist_continuous <- c("beta", "cauchy", "chisq", "exp", "f", "gamma", "logis", "lnorm", "Norm", "t", "unif", "weibull") # continuous distributions
+  dist_names <- c(dist_discrete, dist_continuous) # supported distributions
 
   dist_types <- c("r", "d", "p")                                    # random/density/cumulative distribution
 
@@ -34,23 +67,18 @@ formValidate <- function(POST) {
                       exp = "rate",
                       f = c("df1", "df2"),
                       gamma = c("shape", "scale"),
-                      geom = "p",
-                      hyper = c("m", "total", "k"),
+                      geom = "prob",
+                      Hyper = c("m", "total", "k"),
                       logis = c("location", "scale"),
                       lnorm = c("meanlog", "sdlog"),
                       nbinom = c("size", "prob"),
-                      norm = c("mean", "var"),
+                      Norm = c("mean", "var"),
                       pois = "lambda",
                       t = "df",
+                      UnifD= c("min", "max"),
                       unif = c("min", "max"),
-                      unifC = c("min", "max"),
                       weibull = c("shape", "scale")
                       )
-  ## NOTE ##
-  ## write custom helpers or change pairlist arguments
-  ## norm   - change sd to var
-  ## unifC  - round unif
-  ## hyper  - remove white + black, set white + n
 
   major_param_names <- c("n", dist_params[[POST$distname]]) # get distribution parameters' names
   minor_param_names <- setdiff(num_inputs, major_param_names) # get minor parameters' names
@@ -76,15 +104,12 @@ formValidate <- function(POST) {
   }
 
   ## check POST inputs
-  if (POST$disttype == "r") {
-    args <- c("seed", major_param_names, txt_inputs) # (pseudo)random distribution inputs
-  } else {
-    ## check for user-defined plot type =)
-    if (POST$plottype %in% c("boxplot", "hist", "density", "ecdf")) {
-      stop("Invalid plot type!")
-    }
-    args <- c("from", "to", major_param_names, txt_inputs) # density/cumulative distribution inputs
+  if (POST$disttype != "r" & POST$plottype %in% plot_random) {
+    stop("Invalid plot type!")
   }
+
+  args <- c(minor_param_names, major_param_names, txt_inputs) # d/p*** distribution inputs
+
   ## check for a perfect match
   if (!setequal(nms, args)) {
     stop("Unknown form inputs!")
@@ -100,7 +125,8 @@ formValidate <- function(POST) {
   ## THIS IS WHERE ACTUALL STUFF HAPPENS ##
 
   major_param_list <- POST[major_param_names] # major parameters list (distribution parameters)
-  minor_param_list <- POST[minor_param_names] # minor parameters list (seed,n / from,to,n)
+  
+  minor_param_list <- POST[minor_param_names] # minor parameters list (seed / from,to)
   names(major_param_list)[1] <- switch(POST$disttype, d = "x", p = "q", "n") # convert 'n' for d/p*** compatibility
   dname <- with(POST, paste(disttype, distname, sep = "")) # name for r/d/p*** R distribution function
 
@@ -155,22 +181,17 @@ genPlot <- function(x, y, plot_type, plot_name, ...) {
          plot(x, y, type = plot_type, pch = 19, ...)
          )
   dev.off()
-  cat(fp)
+  cat(toJSON(c(plot = fp)))
 }
                     
 errFn <- function(e) {
-  print(e$message) # lepse to malo!
+  cat(toJSON(c(error = e$message, plot = ""))) # throw an error
 }
 
 tryCatch(formValidate(POST), error = errFn)
 
-## genUnivarPlot should be executed inside formValidate
-## write a function that takes 3 arguments:
-## plot type, distribution type and parameter list
-## wrap param list within do.call with distribution type
-## write specialised functions for normal, hypergeometric and discrete uniform distribution
-
+## error/plot toJSON!!!
 ## set execution limit
-## set sample size limit through options()
+## set sample size limit through options() ??? or hardcode it?
 ## use JSON with tryCatch to indicate error in code!
 ## return plot within JSON
