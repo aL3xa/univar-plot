@@ -460,7 +460,7 @@ $(document).ready(function(){
 		$("#plot-inner").html('<p id = "plot-text">Load error!</p>');
 	    },
 	    success: function(res) {
-		$("#plot-inner").html(res);
+		$("#plot-inner").html('<img src = ' + res + ' alt = "rplot" />');
 	    }
 	}); // end AJAX call
     }); // end update plot div

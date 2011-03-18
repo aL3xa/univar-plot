@@ -1,6 +1,9 @@
 ## throw RApache errors
 RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
 
+## set working directory
+setwd("/srv/http/univar/")
+
 ## form validation function
 
 formValidate <- function(POST) {
@@ -11,42 +14,46 @@ formValidate <- function(POST) {
 
   re_num <- "^-?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric regexp
 
+  ## change to dist_names <- dist_discrete + dist_continuous
+
   dist_names <- c("beta", "binom", "cauchy", "chisq", "exp", "f", "gamma", "geom", "hyper", "logis", "lnorm", "nbinom", "norm", "pois", "t", "unif_d", "unif", "weibull") # supported distributions
-  dist_d <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
-  dist_c <- setdiff(dist_names, dist_d)                             # continuous distributions
+  dist_discrete <- c("binom", "geom", "hyper", "nbinom", "pois", "unif_d") # discrete distributions
+  dist_continuous <- setdiff(dist_names, dist_discrete)                    # continuous distributions
 
   dist_types <- c("r", "d", "p")                                    # random/density/cumulative distribution
 
   plot_types <- c("p", "l", "o", "b", "h", "s", "boxplot", "hist", "density", "ecdf") # supported plots
+  plot_random <- c("boxplot", "hist", "density", "ecdf") # (pseudo)random specific plots
 
   ## distribution parameters
-  dist_params<- list(
-                     beta = c("shape1", "shape2"),
-                     binom = c("size", "prob"),
-                     cauchy = c("location", "scale"),
-                     chisq = "df",
-                     exp = "rate",
-                     f = c("df1", "df2"),
-                     gamma = c("shape", "scale"),
-                     geom = "p",
-                     hyper = c("m", "total", "k"),
-                     logis = c("location", "scale"),
-                     lnorm = c("meanlog", "sdlog"),
-                     nbinom = c("size", "prob"),
-                     norm = c("mean", "var"),
-                     pois = "lambda",
-                     t = "df",
-                     unif = c("min", "max"),
-                     unifC = c("min", "max"),
-                     weibull = c("shape", "scale")
-                     )
+  dist_params <- list(
+                      beta = c("shape1", "shape2"),
+                      binom = c("size", "prob"),
+                      cauchy = c("location", "scale"),
+                      chisq = "df",
+                      exp = "rate",
+                      f = c("df1", "df2"),
+                      gamma = c("shape", "scale"),
+                      geom = "p",
+                      hyper = c("m", "total", "k"),
+                      logis = c("location", "scale"),
+                      lnorm = c("meanlog", "sdlog"),
+                      nbinom = c("size", "prob"),
+                      norm = c("mean", "var"),
+                      pois = "lambda",
+                      t = "df",
+                      unif = c("min", "max"),
+                      unifC = c("min", "max"),
+                      weibull = c("shape", "scale")
+                      )
   ## NOTE ##
   ## write custom helpers or change pairlist arguments
   ## norm   - change sd to var
   ## unifC  - round unif
   ## hyper  - remove white + black, set white + n
 
-  param_names <- dist_params[[POST$distname]] # get distribution parameters' names
+  major_param_names <- c("n", dist_params[[POST$distname]]) # get distribution parameters' names
+  minor_param_names <- setdiff(num_inputs, major_param_names) # get minor parameters' names
   
   ## check empty inputs
   if (any(sapply(POST, is.null))) {
@@ -68,15 +75,15 @@ formValidate <- function(POST) {
     stop("Unknown plot type!")
   }
 
-  ## check POST inputs - 
+  ## check POST inputs
   if (POST$disttype == "r") {
-    args <- c("n", "seed", param_names, txt_inputs) # (pseudo)random distribution inputs
+    args <- c("seed", major_param_names, txt_inputs) # (pseudo)random distribution inputs
   } else {
     ## check for user-defined plot type =)
     if (POST$plottype %in% c("boxplot", "hist", "density", "ecdf")) {
       stop("Invalid plot type!")
     }
-    args <- c("from", "to", "n", param_names, txt_inputs) # density/cumulative distribution inputs
+    args <- c("from", "to", major_param_names, txt_inputs) # density/cumulative distribution inputs
   }
   ## check for a perfect match
   if (!setequal(nms, args)) {
@@ -90,20 +97,80 @@ formValidate <- function(POST) {
     stop("Submitted non-numeric values!")
   }
 
-  ## convert `n`'s name for d/p compatibility
-  n_par <- switch(POST$disttype, d = "x", p = "q", "n")
-  names(POST)[which(nms == "n")] <- n_par
+  ## THIS IS WHERE ACTUALL STUFF HAPPENS ##
 
-  arg_list <- POST[c(n_par, param_names)]
+  major_param_list <- POST[major_param_names] # major parameters list (distribution parameters)
+  minor_param_list <- POST[minor_param_names] # minor parameters list (seed,n / from,to,n)
+  names(major_param_list)[1] <- switch(POST$disttype, d = "x", p = "q", "n") # convert 'n' for d/p*** compatibility
+  dname <- with(POST, paste(disttype, distname, sep = "")) # name for r/d/p*** R distribution function
+
+  ## generate plot name
+  ## <plottype>@<disttype+distname>_<major params>_<minor params>.png
+  ## b@dgamma_from0_to20_n100_shape1_scale2.png
+
+  plot_name <- with(POST,
+                    paste(
+                          paste(plottype, "@", dname, sep = ""),
+                          "_",
+                          paste(minor_param_names, minor_param_list, sep = "", collapse = "_"),
+                          "_",
+                          paste(names(major_param_list), major_param_list, sep = "", collapse = "_"),
+                          ".png",
+                          sep = ""
+                          )
+                    )
   
+  ## generate random var
+  if (POST$disttype == "r") {
+    set.seed(POST$seed)                 # set random seed (no shit?)
+    x <- do.call(dname, major_param_list) # generate (pseudo)random variable
+    ## y <- NULL
+    ## plot
+    genPlot(x, NULL, POST$plottype, plot_name, main = "")
+  } else {
+    if (POST$distname %in% dist_discrete) {
+      x <- 0:POST$n
+      major_param_list[[1]] <- x
+    } else {
+      x <- with(POST, seq(from, to, length.out = POST$n))
+      major_param_list[[1]] <- x
+    }
+    y <- do.call(dname, major_param_list)
+    ## plot
+    genPlot(x, y, POST$plottype, plot_name, main = "")
+  }
 }
   
-  
-genUnivarPlot <- function() {
-  ## take a list of arguments + plot?
+genPlot <- function(x, y, plot_type, plot_name, ...) {
+  fp <- file.path("img", plot_name)
+  png(fp)
+  switch(plot_type,
+         boxplot = boxplot(x, horizontal = TRUE, pch = 19, ...),
+         hist = (function() {
+           hist(x, pch = 19, ...)
+           box()
+         })(),
+         density = plot(density(x), ...),
+         ecdf = plot(ecdf(x), pch = 19, ...),
+         plot(x, y, type = plot_type, pch = 19, ...)
+         )
+  dev.off()
+  cat(fp)
+}
+                    
+errFn <- function(e) {
+  print(e$message) # lepse to malo!
 }
 
-## genUnivarPlot(formValidate(POST))
-
+tryCatch(formValidate(POST), error = errFn)
 
 ## genUnivarPlot should be executed inside formValidate
+## write a function that takes 3 arguments:
+## plot type, distribution type and parameter list
+## wrap param list within do.call with distribution type
+## write specialised functions for normal, hypergeometric and discrete uniform distribution
+
+## set execution limit
+## set sample size limit through options()
+## use JSON with tryCatch to indicate error in code!
+## return plot within JSON
