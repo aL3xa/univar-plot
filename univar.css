@@ -330,3 +330,13 @@ label{
     vertical-align: middle;
     z-index: 10;
 }
+
+#footer-git {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#footer-git:hover{
+    color: #1CA3D9;
+}

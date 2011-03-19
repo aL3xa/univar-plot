@@ -247,6 +247,10 @@ function genParams(obj, t){
 	n = 20;
 	break;
 
+    case "UnifD":
+	n = 10;
+	break;
+
     case "wilcox":
 	n = 20;
 	break;

@@ -4,7 +4,6 @@ RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
 ## set working directory
 setwd("/srv/http/univar/")
 
-
 ## custom distribution functions
 
 ## hypergeometric distribution
@@ -42,6 +41,7 @@ pUnifD <- function(q, min, max) {
 
 ## form validation function  
 formValidate <- function(POST) {
+  require(RJSONIO)                      # load JSON package
 
   nms <- names(POST)                    # form input names
   txt_inputs <- c("distname", "disttype", "plottype") # textual form inputs
@@ -68,7 +68,7 @@ formValidate <- function(POST) {
                       f = c("df1", "df2"),
                       gamma = c("shape", "scale"),
                       geom = "prob",
-                      Hyper = c("m", "total", "k"),
+                      Hyper = c("white", "total", "k"),
                       logis = c("location", "scale"),
                       lnorm = c("meanlog", "sdlog"),
                       nbinom = c("size", "prob"),
@@ -102,14 +102,14 @@ formValidate <- function(POST) {
   if (!POST$plottype %in% plot_types) {
     stop("Unknown plot type!")
   }
-
-  ## check POST inputs
+  ## check distribution type specific plots
+  ## boxplot, histogram, density and ecdf not available for pdf/cdf
   if (POST$disttype != "r" & POST$plottype %in% plot_random) {
     stop("Invalid plot type!")
   }
 
+  ## check POST parameters
   args <- c(minor_param_names, major_param_names, txt_inputs) # d/p*** distribution inputs
-
   ## check for a perfect match
   if (!setequal(nms, args)) {
     stop("Unknown form inputs!")
@@ -122,13 +122,19 @@ formValidate <- function(POST) {
     stop("Submitted non-numeric values!")
   }
 
+
   ## THIS IS WHERE ACTUALL STUFF HAPPENS ##
 
-  major_param_list <- POST[major_param_names] # major parameters list (distribution parameters)
-  
+  major_param_list <- POST[major_param_names] # major parameters list (distribution parameters with n/x/q)
   minor_param_list <- POST[minor_param_names] # minor parameters list (seed / from,to)
+  
   names(major_param_list)[1] <- switch(POST$disttype, d = "x", p = "q", "n") # convert 'n' for d/p*** compatibility
-  dname <- with(POST, paste(disttype, distname, sep = "")) # name for r/d/p*** R distribution function
+  dname <- paste(POST$disttype, POST$distname, sep = "") # name for r/d/p*** R distribution function
+  if (length(minor_param_names)) {
+    minor_name <- paste(minor_param_names, minor_param_list, "_", sep = "", collapse = "_")
+  } else {
+    minor_name <- NULL
+  }
 
   ## generate plot name
   ## <plottype>@<disttype+distname>_<major params>_<minor params>.png
@@ -136,10 +142,9 @@ formValidate <- function(POST) {
 
   plot_name <- with(POST,
                     paste(
-                          paste(plottype, "@", dname, sep = ""),
+                          paste(plottype, "@", tolower(dname), sep = ""),
                           "_",
-                          paste(minor_param_names, minor_param_list, sep = "", collapse = "_"),
-                          "_",
+                          minor_name,
                           paste(names(major_param_list), major_param_list, sep = "", collapse = "_"),
                           ".png",
                           sep = ""
@@ -158,7 +163,11 @@ formValidate <- function(POST) {
       x <- 0:POST$n
       major_param_list[[1]] <- x
     } else {
-      x <- with(POST, seq(from, to, length.out = POST$n))
+      if (POST$distname == "beta") {
+        x <- seq(0, 1, length.out = POST$n) # x = (0, 1)
+      } else {
+        x <- with(POST, seq(from, to, length.out = POST$n))
+      }
       major_param_list[[1]] <- x
     }
     y <- do.call(dname, major_param_list)
@@ -166,22 +175,28 @@ formValidate <- function(POST) {
     genPlot(x, y, POST$plottype, plot_name, main = "")
   }
 }
-  
+
+
+
 genPlot <- function(x, y, plot_type, plot_name, ...) {
-  fp <- file.path("img", plot_name)
-  png(fp)
-  switch(plot_type,
-         boxplot = boxplot(x, horizontal = TRUE, pch = 19, ...),
-         hist = (function() {
-           hist(x, pch = 19, ...)
-           box()
-         })(),
-         density = plot(density(x), ...),
-         ecdf = plot(ecdf(x), pch = 19, ...),
-         plot(x, y, type = plot_type, pch = 19, ...)
-         )
-  dev.off()
-  cat(toJSON(c(plot = fp)))
+  fp <- file.path("img", plot_name)     # set file path
+  ## don't re-plot the graph
+  if (!file.exists(fp)) {
+    png(fp)
+    switch(plot_type,
+           boxplot = boxplot(x, horizontal = TRUE, pch = 19, ...),
+           hist = (function() {
+             hist(x, pch = 19, ...)
+             box()
+           })(),
+           density = plot(density(x), ...),
+           ecdf = plot(ecdf(x), pch = 19, ...),
+           plot(x, y, type = plot_type, pch = 19, ...)
+           )
+    ## subtitle with plot parameters?
+    dev.off()
+  }
+  cat(toJSON(c(plot = fp)))             # return JSON with plot path
 }
                     
 errFn <- function(e) {
