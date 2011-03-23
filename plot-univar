@@ -4,6 +4,9 @@ RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
 ## set working directory
 setwd("/srv/http/univar/")
 
+## generate plot name
+
+
 ## custom distribution functions
 
 ## hypergeometric distribution
@@ -41,13 +44,12 @@ pUnifD <- function(q, min, max) {
 
 ## form validation function  
 formValidate <- function(POST) {
-  require(RJSONIO)                      # load JSON package
 
   nms <- names(POST)                    # form input names
   txt_inputs <- c("distname", "disttype", "plottype") # textual form inputs
   num_inputs <- setdiff(nms, txt_inputs)              # numerical form inputs
 
-  re_num <- "^-?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric regexp
+  re_num <- "^(-|\\+)?([0-9]+(\\.[0-9]+)?|Inf)$" # numeric regexp
 
   dist_discrete <- c("binom", "geom", "Hyper", "nbinom", "pois", "UnifD") # discrete distributions
   dist_continuous <- c("beta", "cauchy", "chisq", "exp", "f", "gamma", "logis", "lnorm", "Norm", "t", "unif", "weibull") # continuous distributions
@@ -176,8 +178,6 @@ formValidate <- function(POST) {
   }
 }
 
-
-
 genPlot <- function(x, y, plot_type, plot_name, ...) {
   fp <- file.path("img", plot_name)     # set file path
   ## don't re-plot the graph
@@ -205,8 +205,5 @@ errFn <- function(e) {
 
 tryCatch(formValidate(POST), error = errFn)
 
-## error/plot toJSON!!!
 ## set execution limit
 ## set sample size limit through options() ??? or hardcode it?
-## use JSON with tryCatch to indicate error in code!
-## return plot within JSON

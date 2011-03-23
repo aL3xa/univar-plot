@@ -10,7 +10,7 @@ var dists =
 	 "labels": ["&alpha;", "&beta;"],
 	 "titles": ["Shape parameter &alpha;", "Shape parameter &beta;"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Beta_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html"
      }, {
 	 "name":"binomial",
 	 "short":"binom",
@@ -21,7 +21,7 @@ var dists =
 	 "labels": ["x", "p"],
 	 "titles": ["# of successes", "Probability of success"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Binomial_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html"
      }, {
 	 "name":"Cauchy",
 	 "short":"cauchy",
@@ -32,7 +32,7 @@ var dists =
 	 "labels": ["x<sub>0</sub>", "&gamma;"],
 	 "titles": ["Location parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Cauchy_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html"
      }, {
 	 "name":"chi-square",
 	 "short":"chisq",
@@ -43,7 +43,7 @@ var dists =
 	 "labels": ["df"],
 	 "titles": ["Degrees of freedom"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Chi-square_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html"
      }, {
 	 "name":"exponential",
 	 "short":"exp",
@@ -54,7 +54,7 @@ var dists =
 	 "labels": ["&lambda;"],
 	 "titles": ["Rate parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Exponential_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html"
      }, {
 	 "name":"Fisher-Snedecor's F",
 	 "short":"f",
@@ -65,7 +65,7 @@ var dists =
 	 "labels": ["df<sub>1</sub>", "df<sub>2</sub>"],
 	 "titles": ["Numerator degrees of freedom", "Denominator degrees of freedom"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/F-distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html"
      }, {
 	 "name":"gamma",
 	 "short":"gamma",
@@ -76,7 +76,7 @@ var dists =
 	 "labels": ["k", "&theta;"],
 	 "titles": ["Shape parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Gamma_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html"
      }, {
 	 "name":"geometric",
 	 "short":"geom",
@@ -87,7 +87,7 @@ var dists =
 	 "labels": ["p"],
 	 "titles": ["Probability of success"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Geometric_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html"
      }, {
 	 "name":"hypergeometric",
 	 "short":"Hyper",
@@ -98,7 +98,7 @@ var dists =
 	 "labels": ["m", "n", "k"],
 	 "titles": ["# of white balls in the urn", "total # of balls in the urn", "# of balls drawn from the urn"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Hypergeometric_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html"
      }, {
 	 "name":"logistic",
 	 "short":"logis",
@@ -109,7 +109,7 @@ var dists =
 	 "labels": ["&mu;", "s"],
 	 "titles": ["Location parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Logistic_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html"
      }, {
 	 "name":"log-normal",
 	 "short":"lnorm",
@@ -120,7 +120,7 @@ var dists =
 	 "labels": ["&mu;", "&sigma;"],
 	 "titles": ["Location parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Lognormal_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html"
      }, {
 	 "name":"negative binomial",
 	 "short":"nbinom",
@@ -131,7 +131,7 @@ var dists =
 	 "labels": ["x", "p"],
 	 "titles": ["# of successes", "Probability of success"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Negative_binomial_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html"
      }, {
 	 "name":"normal (Gaussian)",
 	 "short":"Norm",
@@ -142,7 +142,7 @@ var dists =
 	 "labels": ["&mu;", "&sigma;<sup>2</sup>"],
 	 "titles": ["Mean", "Variance"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Normal_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html"
      }, {
 	 "name":"Poisson",
 	 "short":"pois",
@@ -153,7 +153,7 @@ var dists =
 	 "labels": ["&lambda;"],
 	 "titles": ["Average number of events in an interval"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Poisson_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html"
      }, {
 	 "name":"Student's t",
 	 "short":"t",
@@ -164,7 +164,7 @@ var dists =
 	 "labels": ["df"],
 	 "titles": ["Degrees of freedom"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Student_t_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html"
      }, {
 	 "name":"uniform (discrete)",
 	 "short":"UnifD",
@@ -175,7 +175,7 @@ var dists =
 	 "labels": ["a", "b"],
 	 "titles": ["Minimum value", "Maximum value"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Uniform_distribution_%28discrete%29",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
      }, {
 	 "name":"uniform (continuous)",
 	 "short":"unif",
@@ -186,7 +186,7 @@ var dists =
 	 "labels": ["a", "b"],
 	 "titles": ["Minimum value", "Maximum value"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
      }, {
 	 "name":"Weibull",
 	 "short":"weibull",
@@ -197,19 +197,8 @@ var dists =
 	 "labels": ["k", "&lambda;"],
 	 "titles": ["Shape parameter", "Scale parameter"],
 	 "wikiurl": "http://en.wikipedia.org/wiki/Weibull_distribution",
-	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html"
-     }// , {
-     // 	 "name":"Wilcoxon",
-     // 	 "short":"wilcox",
-     // 	 "type":"discrete",
-     // 	 // "xlim": ["", ""],
-     // 	 "params": ["n1", "n2"],
-     // 	 "values": ["50", "50"],
-     // 	 "labels": ["n<sub>1</sub>", "n<sub>2</sub>"],
-     // 	 "titles": ["# of observations in first sample", "# of observations in second sample"],
-     // 	 "wikiurl": "http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test",
-     // 	 "rman": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Wilcoxon.html"
-     // }
+	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html"
+     }
  ];
 
 
@@ -332,75 +321,84 @@ function resetLayout(msg, callback){
 
 $(document).ready(function(){
     
-    var obj,
-    $distname = $("#distname"),
-    $distpar = $("#distpar"),
-    $plotIcons = $("#footpar img");
+    var fVal = null,			// distribution info
+    $bodyPar = $("#bodypar"),	// body block (distribution parameters)
+    $footPar = $("#footpar"),	// footer block (plot type)
+    $distName = $("#distname"),	// distribution name hidden value
+    $distNameSel = $("#distname-sel"), // distribution name select div
+    $distNameOpt = $("#distname-opt"), // distribution name option
+    $distNameOptUl = $("#distname-opt ul"), 
+    $distType = $("#disttype"),	    // distribution type
+    $distPar = $("#distpar"),	// distribution parameters
+    $plotIcons = $("#footpar img"), // plot icons
+    $wikiUrl = $("#wikiurl"),	    // link to wikipedia page
+    $RManUrl = $("#rmanurl");	    // link to R manual pages
     
-    resetLayout();		// guess what?
+    // resetLayout();		// guess what? wtf?
 
-    // load <option> items
-    $.each(dists, function(i, data){
-	$distname.append('<option value = "' + data.short  + '">' + data.name +'</option>'); // populate select element
-	$("#distname option[value = '" + data.short + "']").data("distdata", data);
-    }); // end each
+    // create distribution list
+    $.each(dists, function(i, data) {
+	$distNameOptUl.append('<li id = "' + data.short + '">' + data.name + '</li>'); // import <li>s
+	$("#distname-opt li[id = '" + data.short + "']").data("distdata", data); // set data
+    });
 
-    $("#distplot").show();	// show page contents
+    $("#distplot").show();	// show layout
 
-    // on change distribution
-    $distname.change(function(){
+    // distribution list menu
+    $distNameOpt.css("left", $("#random").offset().left); // position
 
-	var $el = $(this);	// create shorthand
+    // show menu
+    $distNameSel.click(function() {
+    	$distNameOpt.toggle();
+    });
 
-	if ($(this).val() === ""){
-	    resetLayout("This will reset application layout to initial state.\nContinue?", $el.val($el.data("distval"))); // show confirm box
-	} else if ($(this).val() !== ""){		      // if distname not empty =)
-	    obj = $("#distname option[value='" + $(this).val() + "']").data("distdata"); // set distdata data to global variable
-	    $("#wikiurl").attr({"href":obj.wikiurl, "title":"See Wikipedia page about the " + obj.name + " distribution"}); // set href for Wikipedia link
-	    $("#rman").attr({"href":obj.rman, "title":"See R documentation about the " + obj.name + " distribution"}); // set href for R manal page
-	    $("#wikiurl, #rman").show(); // show Wikipedia & R manual links
-	    $(this).data("distval", $(this).val()); // remember distribution name
-	    // check distribution type
-	    if ($("#disttype").val() === "r"){
-		$distpar.html(genParams(obj, "r")); // generate random params
-	    } else if ($("#disttype").val() === "d" || $("#disttype").val() === "p") {
-		$distpar.html(genParams(obj, "dp")); // generate d/p params
-	    } else {
-		// do nothing
-	    } // end if
-	} else {
-	    alert("Distribution name unknown!"); // you never know...
-	} // end if
-    }); // end select change
-
+    // menu item click
+    $("li").click(function(){
+	fVal = $(this).data("distdata"); // set shorthand for distribution data
+	$distName.val(fVal.short); // set distribution type
+	$distNameOpt.hide();	   // hide menu
+	$distNameSel.text(fVal.name); // set button text
+	$wikiUrl.attr({"href":fVal.wikiurl, "title":"See Wikipedia page about the " + fVal.name + " distribution"}).show(); // set href & title for Wikipedia link
+	$RManUrl.attr({"href":fVal.rmanurl, "title": "See R documentation about the " + fVal.name + " distribution"}).show(); // set href & title for R documentation
+    	if ($("#disttype").val() === "r"){
+    	    $distPar.html(genParams(fVal, "r")); // generate random params
+    	} else if ($("#disttype").val() === "d" || $("#disttype").val() === "p") {
+    	    $distPar.html(genParams(fVal, "dp")); // generate d/p params
+    	} else {
+    	    // do nothing
+    	} // end if	
+    });
 
     // change distribution type
     $("#disttypebtns span").click(function(){
 
-    	if ($distname.val() === "") { // if distribution not specified
+    	if ($distName.val() === "") { // if distribution not specified
 
-    	    $distpar.html(""); // remove distribution params
+	    // prepravi ovo
+
+	    $bodyPar.add($footPar).hide();
+    	    $distPar.html(""); // remove distribution params
     	    alert("Choose a distribution first!"); // show warning
 
-    	} else if ($distname.val() !== ""){
+    	} else if ($distName.val() !== ""){
 
-	    var distTypeVal = $("#disttype").val(); // distribution type value
+	    var distTypeVal = $distType.val(); // distribution type value
 
 	    // deal with timeout in fadeTo
 
-    	    $("#bodypar, #footpar").show(); // show stuff
-	    $("#disttypebtns span").removeClass("disttypesel").fadeTo(0, 0.5); // remove highlight from disttype buttons
-	    $(this).addClass("disttypesel").fadeTo(0, 1.0);		// highlight selected button
-	    $("#footpar img").removeClass("plot-icon-sel").fadeTo(0, 1); // remove plot highlight
+    	    $bodyPar.add($footPar).show(); // show stuff
+	    $("#disttypebtns span").removeClass("disttypesel"); // remove highlight from disttype buttons
+	    $(this).addClass("disttypesel");		// highlight selected button
+	    $("#footpar img").removeClass("plot-icon-sel"); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
 	    // random disttype
 	    switch($(this).index()){
 	    
 	    case 0:
 		if (distTypeVal === "r") {
-		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "r")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distPar.html(genParams(fVal, "r")) : false; // reset distpar
 		} else {
-		    $distpar.html(genParams(obj, "r")); // generate random distribution params
+		    $distPar.html(genParams(fVal, "r")); // generate random distribution params
 		    $("#other").show();			     // show other plots
 		} // end if
 		break;
@@ -408,18 +406,18 @@ $(document).ready(function(){
 	    // density/cumulative disttype
 	    case 1:
 		if (distTypeVal === "d") {
-		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "dp")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distPar.html(genParams(fVal, "dp")) : false; // reset distpar
 		} else {
-		    $distpar.html(genParams(obj, "dp")); // generate density distribution params
+		    $distPar.html(genParams(fVal, "dp")); // generate density distribution params
 		    $("#other").hide();		 // hide other plots
 		} // end if
 		break;
 
 	    case 2:
 		if (distTypeVal === "p") {
-		    confirm("Reset distribution parameters?") ? $distpar.html(genParams(obj, "dp")) : false; // reset distpar
+		    confirm("Reset distribution parameters?") ? $distPar.html(genParams(fVal, "dp")) : false; // reset distpar
 		} else {
-		    $distpar.html(genParams(obj, "dp")); // generate density distribution params
+		    $distPar.html(genParams(fVal, "dp")); // generate density distribution params
 		    $("#other").hide();		 // hide other plots
 		} // end if
 		break;

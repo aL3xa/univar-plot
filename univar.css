@@ -104,6 +104,49 @@ body{
     padding: 10px 0 15px;
 }
 
+#distname-sel{
+    background:#EEEEEE;
+    color: #353535;
+    padding:3px 10px;
+    cursor:pointer;
+    text-align:left;
+    font-size:0.9em;
+    border-radius:5px;
+    -moz-border-radius:5px;	/*for firefox 3.6*/
+    user-select:none;
+    -moz-user-select:none;
+}
+
+#distname-opt{
+    background: none repeat scroll 0 0 #EEEEEE;
+    height: 200px;
+    overflow: auto;
+    position: absolute;
+    display: none;
+    width: 200px;
+    text-align:left;
+    border-radius:0 5px;
+    -moz-border-radius:0 5px;	/*for firefox 3.6*/
+}
+
+#distname-opt ul{
+    margin: 0;
+    padding: 0;
+}
+
+#distname-opt li{
+    padding: 0 0 0 15px;
+    color: #353535;
+    list-style-type: none;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+#distname-opt li:hover{
+    background:#1CA3D9;
+    color: white;
+}
+
 #rnd{
     background: none repeat scroll 0 0 #EEEEEE;
     color: #353535;
@@ -140,7 +183,7 @@ body{
     text-decoration:none;
 }
 
-#rman{
+#rmanurl{
     display:none;
     margin-left:10px;
     font-family:verdana;
@@ -149,7 +192,7 @@ body{
     text-decoration:none;
 }
 
-#wikiurl:hover, #rman:hover{
+#wikiurl:hover, #rmanurl:hover{
     color:#1CA3D9;
 }
 

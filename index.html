@@ -25,16 +25,20 @@
 	  <form action="#" method="post">
 	    <div id="headpar" class="par-window">
 	      <div id="headpar-title" class="par-title">
-		<span title="Click to collapse field">Main options</span>
+		<span>Main options</span>
 	      </div>
 	      <div id="headpar-content" class="par-content">
 		<div id="distnames" class="ppar">
-		  <label for="distname">Distribution</label>
-		  <select id="distname" name="distname">
-		    <option value="" selected="selected">-- choose --</option>
-		  </select>
+		  <label for="distname-sel">Distribution</label>
+		  <span id="distname-sel" title="Click to show/hide distribution list">- not selected -</span>
+		  <div id="distname-opt">
+		    <ul>
+		      <!-- distribution list goes here -->
+		    </ul>
+		  </div>
+		  <input type="hidden" id="distname" name="distname" value="" />
 		  <a id="wikiurl" target="_blank">W</a>
-		  <a id="rman" target="_blank">R</a>
+		  <a id="rmanurl" target="_blank">R</a>
 		</div>
 		<div id="disttypes" class="ppar">
 		  <label for="disttypebtns">Type</label>
@@ -49,7 +53,7 @@
 	    </div>
 	    <div id="bodypar" class="par-window">
 	      <div id="bodypar-title" class="par-title">
-		<span title="Click to collapse field">Distribution parameters</span>
+		<span>Distribution parameters</span>
 	      </div>
 	      <div id="bodypar-content" class="par-content">
 		<div id="distpar">
@@ -59,7 +63,7 @@
 	    </div>
 	    <div id="footpar" class="par-window">
 	      <div id="footpar-title" class="par-title" class="par-content">
-		<span title="Click to collapse field">Plot type</span>
+		<span>Plot type</span>
 	      </div>
 	      <div id="partitle-content" class="par-content">
 		<div id="plottypes" class="ptype">
