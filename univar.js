@@ -330,9 +330,8 @@ $(document).ready(function(){
     $distNameOptUl = $("#distname-opt ul"), 
     $distType = $("#disttype"),	    // distribution type
     $distPar = $("#distpar"),	// distribution parameters
-    $plotIcons = $("#footpar img"), // plot icons
-    $wikiUrl = $("#wikiurl"),	    // link to wikipedia page
-    $RManUrl = $("#rmanurl");	    // link to R manual pages
+    $plotIcons = $("#footpar img"); // plot icons
+
     
     // resetLayout();		// guess what? wtf?
 
@@ -345,21 +344,24 @@ $(document).ready(function(){
     $("#distplot").show();	// show layout
 
     // distribution list menu
-    $distNameOpt.css("left", $("#random").offset().left); // position
-
-    // show menu
-    $distNameSel.click(function() {
+    $distNameSel.click(function(evt) {
+	$("body").one("click", function(){
+	    $distNameOpt.hide();
+	});
     	$distNameOpt.toggle();
+	$distNameOpt.css("left", $("#random").offset().left); // position
+	evt.stopPropagation();
     });
 
     // menu item click
-    $("li").click(function(){
+    $("li").click(function(e){
 	fVal = $(this).data("distdata"); // set shorthand for distribution data
 	$distName.val(fVal.short); // set distribution type
 	$distNameOpt.hide();	   // hide menu
 	$distNameSel.text(fVal.name); // set button text
-	$wikiUrl.attr({"href":fVal.wikiurl, "title":"See Wikipedia page about the " + fVal.name + " distribution"}).show(); // set href & title for Wikipedia link
-	$RManUrl.attr({"href":fVal.rmanurl, "title": "See R documentation about the " + fVal.name + " distribution"}).show(); // set href & title for R documentation
+	$("#wikiurl").attr({"href":fVal.wikiurl, "title":"See Wikipedia page about the " + fVal.name + " distribution"}); // set href & title for Wikipedia link
+	$("#rmanurl").attr({"href":fVal.rmanurl, "title": "See R documentation about the " + fVal.name + " distribution"}); // set href & title for R documentation
+	$("#manlinks").show();	// show links
     	if ($("#disttype").val() === "r"){
     	    $distPar.html(genParams(fVal, "r")); // generate random params
     	} else if ($("#disttype").val() === "d" || $("#disttype").val() === "p") {
@@ -388,7 +390,7 @@ $(document).ready(function(){
 
     	    $bodyPar.add($footPar).show(); // show stuff
 	    $("#disttypebtns span").removeClass("disttypesel"); // remove highlight from disttype buttons
-	    $(this).addClass("disttypesel");		// highlight selected button
+	    $(this).addClass("disttypesel") // highlight selected button
 	    $("#footpar img").removeClass("plot-icon-sel"); // remove plot highlight
 	    $("#plottype").val("");			    // reset plot type
 	    // random disttype

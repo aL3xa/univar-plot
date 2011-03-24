@@ -121,6 +121,7 @@ body{
     background: none repeat scroll 0 0 #EEEEEE;
     height: 200px;
     overflow: auto;
+    opacity: 1;
     position: absolute;
     display: none;
     width: 200px;
@@ -175,8 +176,6 @@ body{
 }
 
 #wikiurl{
-    display:none;
-    margin-left:10px;
     font-family:serif;
     cursor:pointer;
     color:black;
@@ -184,7 +183,6 @@ body{
 }
 
 #rmanurl{
-    display:none;
     margin-left:10px;
     font-family:verdana;
     cursor:pointer;
@@ -194,6 +192,12 @@ body{
 
 #wikiurl:hover, #rmanurl:hover{
     color:#1CA3D9;
+}
+
+#manlinks{
+    display: none;
+    float: right;
+    margin: 0 15px 0 0;
 }
 
 #distpar{
@@ -248,6 +252,15 @@ body{
 .disttypesel{
     background: #1CA3D9;
     color: white;
+}
+
+.disttypeblur{
+    background:#EEEEEE;
+    color: #353535;
+}
+
+.disttypeblur:hover{
+    
 }
 
 #bodypar{
