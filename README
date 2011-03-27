@@ -1,1 +1,56 @@
-# this README is yet to be written. sorry for inconvenience.
+## univar-plot v0.2alpha ##
+
+
+* DESCRIPTION
+
+** simple RApache-powered web-application for plotting theoretical univariate distributions
+
+
+* LICENSE
+
+** GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+
+
+* REQUIREMENTS
+
+** the most awesome operative system ever
+   http://en.wikipedia.org/wiki/Linux
+** Apache v2.2.4 or higher
+** R v2.5.1 or higher
+   (pre)compiled as a shared library
+** RApache module v1.1.12 or higher
+   http://rapache.net/downloads.html
+   please read the manual page: http://rapache.net/manual.html
+** a lousy machine or better
+   developed and tested on Intel Pentium III Celeron 1.1GHz CPU with 512MB SDRAM
+   (and it works like a charm!)
+** some leisure time
+
+
+* INSTALLATION
+  (in a nutshell)
+
+** just make sure that you have set write permissions for /img folder
+** change image file path in R script (plot-univar) to suite your server configuration
+** note that the images remain on the server once they're plotted
+** have fun and please provide feedback (especially if you use IE)
+
+
+* COMING SOON
+
+** thorough server side form validation
+** fancy interactive client side form validation with popups and stuff
+** interactive plot R source code
+** history view for easy re-plotting
+** re-write of univar-plot for rRack
+*** what is rRack?
+    https://github.com/jeffreyhorner/rRack
+    http://www.vcasmo.com/video/drewconway/11049
+
+
+
+# NOTA BENE #
+
+# this README is superficial and incomplete, much like it's author
+# it will be written in a proper maner, soon... maybe... I hope...
+# sorry for inconvenience!
