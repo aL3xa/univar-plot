@@ -18,6 +18,8 @@
 ** Apache v2.2.4 or higher
 ** R v2.5.1 or higher
    (pre)compiled as a shared library
+** RJSONIO package
+   available on CRAN
 ** RApache module v1.1.12 or higher
    http://rapache.net/downloads.html
    please read the manual page: http://rapache.net/manual.html
