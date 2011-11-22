@@ -1,10 +1,13 @@
 ## throw RApache errors
+## setContentType("text/html")
 RApacheOutputErrors(TRUE)               # comment/set to FALSE in stable release
 
 ## set working directory
-setwd("/srv/http/univar/")
+## setwd("/srv/http/univar/")              # for Arch, Fedora/CentOS
+setwd("/var/www/univar/")               # for Debian/Ubuntu
 
-## generate plot name
+## generate plot name here!
+
 
 
 ## custom distribution functions

@@ -2,7 +2,7 @@ var dists =
  [
      {
 	 "name":"beta",
-	 "short":"beta",
+	 "rname":"beta",
 	 "type":"continuous",
 	 // "xlim": ["0", "1"],
 	 "params": ["shape1", "shape2"],
@@ -13,7 +13,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html"
      }, {
 	 "name":"binomial",
-	 "short":"binom",
+	 "rname":"binom",
 	 "type":"discrete",
 	 // "xlim": ["0", "40"],
 	 "params": ["size", "prob"],
@@ -24,7 +24,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html"
      }, {
 	 "name":"Cauchy",
-	 "short":"cauchy",
+	 "rname":"cauchy",
 	 "type":"continuous",
 	 "xlim": ["-4", "4"],
 	 "params": ["location", "scale"],
@@ -35,7 +35,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html"
      }, {
 	 "name":"chi-square",
-	 "short":"chisq",
+	 "rname":"chisq",
 	 "type":"continuous",
 	 "xlim": ["0", "8"],
 	 "params": ["df"],
@@ -46,7 +46,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html"
      }, {
 	 "name":"exponential",
-	 "short":"exp",
+	 "rname":"exp",
 	 "type":"continuous",
 	 "xlim": ["0", "5"],
 	 "params": ["rate"],
@@ -57,7 +57,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html"
      }, {
 	 "name":"Fisher-Snedecor's F",
-	 "short":"f",
+	 "rname":"f",
 	 "type":"continuous",
 	 "xlim": ["0", "5"],
 	 "params": ["df1", "df2"],
@@ -68,7 +68,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html"
      }, {
 	 "name":"gamma",
-	 "short":"gamma",
+	 "rname":"gamma",
 	 "type":"continuous",
 	 "xlim": ["0", "20"],
 	 "params": ["shape", "scale"],
@@ -79,7 +79,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html"
      }, {
 	 "name":"geometric",
-	 "short":"geom",
+	 "rname":"geom",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["prob"],
@@ -90,7 +90,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html"
      }, {
 	 "name":"hypergeometric",
-	 "short":"Hyper",
+	 "rname":"Hyper",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["white", "total", "k"],
@@ -101,7 +101,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html"
      }, {
 	 "name":"logistic",
-	 "short":"logis",
+	 "rname":"logis",
 	 "type":"continuous",
 	 "xlim": ["-5", "5"],
 	 "params": ["location", "scale"],
@@ -112,7 +112,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html"
      }, {
 	 "name":"log-normal",
-	 "short":"lnorm",
+	 "rname":"lnorm",
 	 "type":"continuous",
 	 "xlim": ["0", "3"],
 	 "params": ["meanlog", "sdlog"],
@@ -123,7 +123,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html"
      }, {
 	 "name":"negative binomial",
-	 "short":"nbinom",
+	 "rname":"nbinom",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["size", "prob"],
@@ -134,7 +134,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html"
      }, {
 	 "name":"normal (Gaussian)",
-	 "short":"Norm",
+	 "rname":"Norm",
 	 "type":"continuous",
 	 "xlim": ["-4", "4"],
 	 "params": ["mean", "var"],
@@ -145,7 +145,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html"
      }, {
 	 "name":"Poisson",
-	 "short":"pois",
+	 "rname":"pois",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["lambda"],
@@ -156,7 +156,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html"
      }, {
 	 "name":"Student's t",
-	 "short":"t",
+	 "rname":"t",
 	 "type":"continuous",
 	 "xlim": ["-5", "5"],
 	 "params": ["df"],
@@ -167,7 +167,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html"
      }, {
 	 "name":"uniform (discrete)",
-	 "short":"UnifD",
+	 "rname":"UnifD",
 	 "type":"discrete",
 	 // "xlim": ["", ""],
 	 "params": ["min", "max"],
@@ -178,7 +178,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
      }, {
 	 "name":"uniform (continuous)",
-	 "short":"unif",
+	 "rname":"unif",
 	 "type":"continuous",
 	 "xlim": ["0", "1"],
 	 "params": ["min", "max"],
@@ -189,7 +189,7 @@ var dists =
 	 "rmanurl": "http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html"
      }, {
 	 "name":"Weibull",
-	 "short":"weibull",
+	 "rname":"weibull",
 	 "type":"continuous",
 	 "xlim": ["0", "2.5"],
 	 "params": ["shape", "scale"],
@@ -204,7 +204,8 @@ var dists =
 
 // random seed generator
 function genRandomSeed() {
-    document.getElementById("seed").value = Math.floor(Math.random() * 100000);
+    var rnd = Math.floor(Math.random() * 100000);
+    document.getElementById("seed").value = rnd;
 } // end genRandomSeed
 
 
@@ -214,7 +215,7 @@ function genParams(obj, t){
     var n;			// sample size
 
     // set sample size
-    switch(obj.short){
+    switch(obj.rname){
 	
     case "binom":
 	n = 40;
@@ -260,7 +261,7 @@ function genParams(obj, t){
     // if density or cumulative distribution requested
     } else if (t === "dp") {
 	// if continuous distribution (beta has hardcoded params)
-	if (obj.type === "continuous" && obj.short !== "beta"){
+	if (obj.type === "continuous" && obj.rname !== "beta"){
     	    par += '<div class = "ppar"><label for = "from">x<sub>min</sub></label>';
     	    par += '<input type = "text" size = "5" id = "from" name = "from" value = "' + obj.xlim[0] + '" title = "Xmin" /></div>';
     	    par += '<div class = "ppar"><label for = "to">x<sub>max</sub></label>';
@@ -337,8 +338,8 @@ $(document).ready(function(){
 
     // create distribution list
     $.each(dists, function(i, data) {
-	$distNameOptUl.append('<li id = "' + data.short + '">' + data.name + '</li>'); // import <li>s
-	$("#distname-opt li[id = '" + data.short + "']").data("distdata", data); // set data
+	$distNameOptUl.append('<li id = "' + data.rname + '">' + data.name + '</li>'); // import <li>s
+	$("#distname-opt li[id = '" + data.rname + "']").data("distdata", data); // set data
     });
 
     $("#distplot").show();	// show layout
@@ -356,7 +357,7 @@ $(document).ready(function(){
     // menu item click
     $("li").click(function(e){
 	fVal = $(this).data("distdata"); // set shorthand for distribution data
-	$distName.val(fVal.short); // set distribution type
+	$distName.val(fVal.rname); // set distribution type
 	$distNameOpt.hide();	   // hide menu
 	$distNameSel.text(fVal.name); // set button text
 	$("#wikiurl").attr({"href":fVal.wikiurl, "title":"See Wikipedia page about the " + fVal.name + " distribution"}); // set href & title for Wikipedia link
